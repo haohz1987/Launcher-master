@@ -53,6 +53,7 @@ import com.handpay.launch.FolderIcon.FolderRingAnimator;
 import com.handpay.launch.accessibility.DragAndDropAccessibilityDelegate;
 import com.handpay.launch.accessibility.FolderAccessibilityHelper;
 import com.handpay.launch.accessibility.WorkspaceAccessibilityHelper;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.Thunk;
 
 import java.util.ArrayList;

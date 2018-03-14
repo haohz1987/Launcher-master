@@ -23,7 +23,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.util.AttributeSet;
 import android.view.View;
 import com.handpay.launch.BaseRecyclerView;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.model.PackageItemInfo;
 import com.handpay.launch.model.WidgetsModel;
 

@@ -28,6 +28,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
 import com.handpay.launch.util.Thunk;
 

@@ -29,7 +29,7 @@ import android.view.View;
 import com.handpay.launch.BaseRecyclerView;
 import com.handpay.launch.BaseRecyclerViewFastScrollBar;
 import com.handpay.launch.DeviceProfile;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.Stats;
 import com.handpay.launch.Utilities;
 import com.handpay.launch.util.Thunk;

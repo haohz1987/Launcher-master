@@ -48,6 +48,7 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Interpolator;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LauncherEdgeEffect;
 import com.handpay.launch.util.Thunk;
 

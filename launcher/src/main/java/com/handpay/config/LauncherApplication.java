@@ -1,6 +1,8 @@
-package com.handpay.launch;
+package com.handpay.config;
 
 import android.app.Application;
+
+import com.handpay.launch.LauncherAppState;
 
 /**
  * 在launcher.java中定义了单例类LauncherAppState，调用

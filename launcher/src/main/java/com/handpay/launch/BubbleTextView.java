@@ -43,6 +43,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.TextView;
 
 import com.handpay.launch.IconCache.IconLoadRequest;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.model.PackageItemInfo;
 
 /**

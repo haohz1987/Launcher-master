@@ -24,6 +24,7 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.view.animation.AnimationUtils;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.FlingAnimation;
 import com.handpay.launch.util.Thunk;
 

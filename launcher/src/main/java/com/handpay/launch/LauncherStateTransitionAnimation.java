@@ -29,6 +29,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
 import com.handpay.launch.allapps.AllAppsContainerView;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
 import com.handpay.launch.util.Thunk;
 import com.handpay.launch.util.UiThreadCircularReveal;

@@ -22,6 +22,8 @@ import android.util.AttributeSet;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.handpay.launch.hp.R;
+
 public class PageIndicatorMarker extends FrameLayout {
     @SuppressWarnings("unused")
     private static final String TAG = "PageIndicator";

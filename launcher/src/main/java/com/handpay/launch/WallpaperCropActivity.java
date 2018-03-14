@@ -43,13 +43,14 @@ import android.widget.Toast;
 import com.android.gallery3d.common.BitmapCropTask;
 import com.android.gallery3d.common.BitmapUtils;
 import com.android.gallery3d.common.Utils;
-import com.handpay.launch.base.BaseActivity;
-import com.handpay.launch.util.Thunk;
-import com.handpay.launch.util.WallpaperUtils;
 import com.android.photos.BitmapRegionTileSource;
 import com.android.photos.BitmapRegionTileSource.BitmapSource;
 import com.android.photos.BitmapRegionTileSource.BitmapSource.InBitmapProvider;
 import com.android.photos.views.TiledImageRenderer.TileSource;
+import com.handpay.launch.base.BaseActivity;
+import com.handpay.launch.hp.R;
+import com.handpay.launch.util.Thunk;
+import com.handpay.launch.util.WallpaperUtils;
 
 import java.util.Collections;
 import java.util.Set;

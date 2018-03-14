@@ -1,1 +1,1 @@
-include ':launcher', ':wallpaperpick'
+include ':launcher', ':wallpaperpick', ':manager'

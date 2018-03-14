@@ -31,7 +31,7 @@ import com.handpay.launch.LauncherAppWidgetInfo;
 import com.handpay.launch.LauncherModel;
 import com.handpay.launch.LauncherSettings;
 import com.handpay.launch.PendingAddItemInfo;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.ShortcutInfo;
 import com.handpay.launch.Workspace;
 import com.handpay.launch.util.Thunk;

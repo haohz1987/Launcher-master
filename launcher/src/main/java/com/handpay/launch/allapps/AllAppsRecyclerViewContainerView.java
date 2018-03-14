@@ -27,7 +27,7 @@ import com.handpay.launch.BubbleTextView.BubbleTextShadowHandler;
 import com.handpay.launch.ClickShadowView;
 import com.handpay.launch.DeviceProfile;
 import com.handpay.launch.Launcher;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 
 /**
  * A container for RecyclerView to allow for the click shadow view to be shown behind an icon that

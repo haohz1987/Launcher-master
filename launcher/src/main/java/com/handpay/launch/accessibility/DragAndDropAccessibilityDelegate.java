@@ -27,7 +27,7 @@ import android.view.accessibility.AccessibilityEvent;
 
 import com.handpay.launch.CellLayout;
 import com.handpay.launch.LauncherAppState;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 
 import java.util.List;
 

@@ -55,6 +55,7 @@ import com.handpay.launch.compat.PackageInstallerCompat;
 import com.handpay.launch.compat.PackageInstallerCompat.PackageInstallInfo;
 import com.handpay.launch.compat.UserHandleCompat;
 import com.handpay.launch.compat.UserManagerCompat;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.model.MigrateFromRestoreTask;
 import com.handpay.launch.model.WidgetsModel;
 import com.handpay.launch.util.ComponentKey;

@@ -2,6 +2,8 @@ package com.handpay.launch;
 
 import android.appwidget.AppWidgetProviderInfo;
 
+import com.handpay.launch.hp.R;
+
 public class DummyWidget implements CustomAppWidget {
     @Override
     public String getLabel() {

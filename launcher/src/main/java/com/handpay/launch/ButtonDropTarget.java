@@ -39,6 +39,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.widget.TextView;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.Thunk;
 
 /**

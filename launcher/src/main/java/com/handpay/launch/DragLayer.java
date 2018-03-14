@@ -40,6 +40,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.handpay.launch.accessibility.LauncherAccessibilityDelegate;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.Thunk;
 
 import java.util.ArrayList;

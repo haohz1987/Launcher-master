@@ -21,6 +21,7 @@ import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
 
 /**

@@ -36,7 +36,7 @@ import com.handpay.launch.ItemInfo;
 import com.handpay.launch.Launcher;
 import com.handpay.launch.LauncherAppState;
 import com.handpay.launch.LauncherAppWidgetProviderInfo;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.StylusEventHelper;
 import com.handpay.launch.WidgetPreviewLoader;
 import com.handpay.launch.WidgetPreviewLoader.PreviewLoadRequest;

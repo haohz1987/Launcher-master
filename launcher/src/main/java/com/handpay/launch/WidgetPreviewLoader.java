@@ -31,6 +31,7 @@ import android.util.LongSparseArray;
 import com.handpay.launch.compat.AppWidgetManagerCompat;
 import com.handpay.launch.compat.UserHandleCompat;
 import com.handpay.launch.compat.UserManagerCompat;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.ComponentKey;
 import com.handpay.launch.util.Thunk;
 import com.handpay.launch.widget.WidgetCell;

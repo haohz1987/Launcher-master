@@ -23,6 +23,8 @@ import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
 
+import com.handpay.launch.hp.R;
+
 /**
  * Settings activity for Launcher. Currently implements the following setting: Allow rotation
  */

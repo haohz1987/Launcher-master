@@ -37,6 +37,7 @@ import android.util.Patterns;
 
 import com.handpay.launch.LauncherProvider.SqlArguments;
 import com.handpay.launch.LauncherSettings.Favorites;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.Thunk;
 
 import org.xmlpull.v1.XmlPullParser;

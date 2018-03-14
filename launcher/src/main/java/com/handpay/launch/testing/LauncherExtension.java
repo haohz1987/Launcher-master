@@ -16,7 +16,7 @@ import com.handpay.launch.InsettableFrameLayout;
 import com.handpay.launch.Launcher;
 import com.handpay.launch.LauncherAnimUtils;
 import com.handpay.launch.LauncherCallbacks;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.allapps.AllAppsSearchBarController;
 import com.handpay.launch.util.ComponentKey;
 

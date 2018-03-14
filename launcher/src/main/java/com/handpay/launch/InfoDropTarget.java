@@ -22,6 +22,7 @@ import android.util.AttributeSet;
 import android.widget.Toast;
 
 import com.handpay.launch.compat.UserHandleCompat;
+import com.handpay.launch.hp.R;
 
 public class InfoDropTarget extends ButtonDropTarget {
     private Context mContext;

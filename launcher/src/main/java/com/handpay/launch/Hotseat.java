@@ -25,6 +25,7 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
 
 public class Hotseat extends FrameLayout

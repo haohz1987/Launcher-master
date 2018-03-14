@@ -42,7 +42,7 @@ import com.handpay.launch.ItemInfo;
 import com.handpay.launch.Launcher;
 import com.handpay.launch.LauncherAppState;
 import com.handpay.launch.PendingAddItemInfo;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.Utilities;
 import com.handpay.launch.WidgetPreviewLoader;
 import com.handpay.launch.Workspace;

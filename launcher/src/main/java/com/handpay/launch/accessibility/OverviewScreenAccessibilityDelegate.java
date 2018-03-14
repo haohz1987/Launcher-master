@@ -25,7 +25,7 @@ import android.view.View;
 import android.view.View.AccessibilityDelegate;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.Utilities;
 import com.handpay.launch.Workspace;
 

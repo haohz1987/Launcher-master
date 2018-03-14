@@ -44,7 +44,7 @@ import com.handpay.launch.Folder;
 import com.handpay.launch.ItemInfo;
 import com.handpay.launch.Launcher;
 import com.handpay.launch.LauncherTransitionable;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.Utilities;
 import com.handpay.launch.Workspace;
 import com.handpay.launch.util.ComponentKey;

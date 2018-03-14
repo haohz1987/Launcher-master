@@ -55,6 +55,7 @@ import com.handpay.launch.LauncherSettings.Favorites;
 import com.handpay.launch.compat.UserHandleCompat;
 import com.handpay.launch.compat.UserManagerCompat;
 import com.handpay.launch.config.ProviderConfig;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.ManagedProfileHeuristic;
 import com.handpay.launch.util.Thunk;
 

@@ -43,6 +43,7 @@ import android.widget.TextView;
 
 import com.handpay.launch.DropTarget.DragObject;
 import com.handpay.launch.FolderInfo.FolderListener;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.Thunk;
 
 import java.util.ArrayList;

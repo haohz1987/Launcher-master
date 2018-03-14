@@ -33,6 +33,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.handpay.launch.hp.R;
+
 /* 设置初始布局 */
 public class DeviceProfile {
 

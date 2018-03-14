@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.widget.RemoteViews;
 
 import com.handpay.launch.DragLayer.TouchCompleteListener;
+import com.handpay.launch.hp.R;
 
 /**
  *

@@ -25,6 +25,7 @@ import com.handpay.launch.accessibility.LauncherAccessibilityDelegate;
 import com.handpay.launch.compat.LauncherAppsCompat;
 import com.handpay.launch.compat.PackageInstallerCompat;
 import com.handpay.launch.compat.UserManagerCompat;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
 import com.handpay.launch.util.Thunk;
 
@@ -113,7 +114,7 @@ public class LauncherAppState {
     /**
      * Call from Application.onTerminate(), which is not guaranteed to ever be called.
      */
-    void onTerminate() {
+    public void onTerminate() {
         sContext.unregisterReceiver(mModel);
         final LauncherAppsCompat launcherApps = LauncherAppsCompat.getInstance(sContext);
         launcherApps.removeOnAppsChangedCallback(mModel);

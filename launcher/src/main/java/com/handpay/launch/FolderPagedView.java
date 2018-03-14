@@ -30,6 +30,7 @@ import android.view.animation.OvershootInterpolator;
 import com.handpay.launch.FocusHelper.PagedFolderKeyEventListener;
 import com.handpay.launch.PageIndicator.PageMarkerResources;
 import com.handpay.launch.Workspace.ItemOperator;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.Thunk;
 
 import java.util.ArrayList;

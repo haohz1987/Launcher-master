@@ -45,6 +45,7 @@ import com.handpay.launch.compat.LauncherActivityInfoCompat;
 import com.handpay.launch.compat.LauncherAppsCompat;
 import com.handpay.launch.compat.UserHandleCompat;
 import com.handpay.launch.compat.UserManagerCompat;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.model.PackageItemInfo;
 import com.handpay.launch.util.ComponentKey;
 import com.handpay.launch.util.Thunk;

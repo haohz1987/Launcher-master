@@ -24,6 +24,7 @@ import android.util.AttributeSet;
 import android.util.Pair;
 import android.view.View;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
 import com.handpay.launch.util.Thunk;
 

@@ -22,6 +22,7 @@ import android.view.SoundEffectConstants;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.FocusLogic;
 import com.handpay.launch.util.Thunk;
 

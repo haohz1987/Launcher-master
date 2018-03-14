@@ -39,7 +39,7 @@ import android.widget.TextView;
 import com.handpay.launch.AppInfo;
 import com.handpay.launch.BubbleTextView;
 import com.handpay.launch.Launcher;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.Utilities;
 import com.handpay.launch.util.Thunk;
 

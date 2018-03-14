@@ -33,6 +33,7 @@ import android.os.Build;
 import android.view.View;
 import android.view.animation.DecelerateInterpolator;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.Thunk;
 
 import java.util.Arrays;

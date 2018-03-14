@@ -25,6 +25,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewParent;
 
+import com.handpay.launch.hp.R;
+
 public class Stats {
 
     /**

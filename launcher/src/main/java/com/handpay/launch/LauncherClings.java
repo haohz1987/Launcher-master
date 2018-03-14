@@ -35,6 +35,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.accessibility.AccessibilityManager;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
 import com.handpay.launch.util.Thunk;
 /* 引导页面 */

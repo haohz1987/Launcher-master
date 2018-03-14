@@ -39,7 +39,7 @@ import android.widget.Toast;
 
 import com.handpay.launch.IconCache;
 import com.handpay.launch.LauncherAppWidgetProviderInfo;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 
 import java.util.ArrayList;
 import java.util.List;

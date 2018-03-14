@@ -18,7 +18,7 @@ package com.handpay.launch.accessibility;
 
 import com.handpay.launch.CellLayout;
 import com.handpay.launch.FolderPagedView;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 
 /**
  * Implementation of {@link DragAndDropAccessibilityDelegate} to support DnD in a folder.

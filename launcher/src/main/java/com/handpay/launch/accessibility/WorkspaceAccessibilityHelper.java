@@ -24,7 +24,7 @@ import com.handpay.launch.CellLayout;
 import com.handpay.launch.FolderInfo;
 import com.handpay.launch.ItemInfo;
 import com.handpay.launch.accessibility.LauncherAccessibilityDelegate.DragType;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.ShortcutInfo;
 
 /**

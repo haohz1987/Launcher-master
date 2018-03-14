@@ -67,6 +67,7 @@ import com.handpay.launch.accessibility.LauncherAccessibilityDelegate;
 import com.handpay.launch.accessibility.LauncherAccessibilityDelegate.AccessibilityDragSource;
 import com.handpay.launch.accessibility.OverviewScreenAccessibilityDelegate;
 import com.handpay.launch.compat.UserHandleCompat;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LongArrayMap;
 import com.handpay.launch.util.Thunk;
 import com.handpay.launch.util.WallpaperUtils;

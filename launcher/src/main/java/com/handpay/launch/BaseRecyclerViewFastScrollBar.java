@@ -29,6 +29,7 @@ import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 
+import com.handpay.launch.hp.R;
 import com.handpay.launch.util.Thunk;
 
 /**

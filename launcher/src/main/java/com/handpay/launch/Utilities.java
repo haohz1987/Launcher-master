@@ -56,6 +56,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.Toast;
 
+import com.handpay.launch.hp.R;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;

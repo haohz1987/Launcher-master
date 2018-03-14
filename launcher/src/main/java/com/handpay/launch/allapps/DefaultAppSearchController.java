@@ -26,7 +26,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import com.handpay.launch.ExtendedEditText;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.Utilities;
 import com.handpay.launch.util.Thunk;
 

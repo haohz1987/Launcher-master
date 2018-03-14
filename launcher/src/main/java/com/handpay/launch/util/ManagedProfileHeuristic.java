@@ -31,7 +31,7 @@ import com.handpay.launch.LauncherAppState;
 import com.handpay.launch.LauncherFiles;
 import com.handpay.launch.LauncherModel;
 import com.handpay.launch.MainThreadExecutor;
-import com.handpay.launch.R;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.ShortcutInfo;
 import com.handpay.launch.Utilities;
 import com.handpay.launch.compat.LauncherActivityInfoCompat;

@@ -35,6 +35,8 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.View.OnClickListener;
 
+import com.handpay.launch.hp.R;
+
 public class PendingAppWidgetHostView extends LauncherAppWidgetHostView implements OnClickListener {
     private static final float SETUP_ICON_SIZE_FACTOR = 2f / 5;
     private static final float MIN_SATUNATION = 0.7f;
