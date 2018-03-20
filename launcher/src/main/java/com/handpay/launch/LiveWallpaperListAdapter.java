@@ -25,7 +25,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.service.wallpaper.WallpaperService;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +34,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.handpay.launch.hp.R;
+import com.handpay.launch.util.LogT;
 import com.handpay.launch.util.Thunk;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -162,10 +162,10 @@ public class LiveWallpaperListAdapter extends BaseAdapter implements ListAdapter
                 try {
                     info = new WallpaperInfo(mContext, resolveInfo);
                 } catch (XmlPullParserException e) {
-                    Log.w(LOG_TAG, "Skipping wallpaper " + resolveInfo.serviceInfo, e);
+                    LogT.w("Skipping wallpaper " + resolveInfo.serviceInfo, e);
                     continue;
                 } catch (IOException e) {
-                    Log.w(LOG_TAG, "Skipping wallpaper " + resolveInfo.serviceInfo, e);
+                    LogT.w("Skipping wallpaper " + resolveInfo.serviceInfo, e);
                     continue;
                 }
 

@@ -2892,34 +2892,34 @@ public class LauncherModel extends BroadcastReceiver
 //                            || app.getApplicationInfo().packageName.equals("com.tencent.mobileqq")
 //                            || app.getApplicationInfo().packageName.equals("com.willme.topactivity")
 //                            ) {
-                        mBgAllAppsList.add(new AppInfo(mContext, app, user, mIconCache));
-//                    }
+                    mBgAllAppsList.add(new AppInfo(mContext, app, user, mIconCache));
 
-                    final ManagedProfileHeuristic heuristic = ManagedProfileHeuristic.get(mContext, user);
-                    if (heuristic != null) {
-                        final Runnable r = new Runnable() {
+                }
 
-                            @Override
-                            public void run() {
-                                heuristic.processUserApps(apps);
-                            }
-                        };
-                        runOnMainThread(new Runnable() {
+                final ManagedProfileHeuristic heuristic = ManagedProfileHeuristic.get(mContext, user);
+                if (heuristic != null) {
+                    final Runnable r = new Runnable() {
 
-                            @Override
-                            public void run() {
-                                // Check isLoadingWorkspace on the UI thread, as it is updated on
-                                // the UI thread.
-                                if (mIsLoadingAndBindingWorkspace) {
-                                    synchronized (mBindCompleteRunnables) {
-                                        mBindCompleteRunnables.add(r);
-                                    }
-                                } else {
-                                    runOnWorkerThread(r);
+                        @Override
+                        public void run() {
+                            heuristic.processUserApps(apps);
+                        }
+                    };
+                    runOnMainThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            // Check isLoadingWorkspace on the UI thread, as it is updated on
+                            // the UI thread.
+                            if (mIsLoadingAndBindingWorkspace) {
+                                synchronized (mBindCompleteRunnables) {
+                                    mBindCompleteRunnables.add(r);
                                 }
+                            } else {
+                                runOnWorkerThread(r);
                             }
-                        });
-                    }
+                        }
+                    });
                 }
                 // Huh? Shouldn't this be inside the Runnable below?
                 final ArrayList<AppInfo> added = mBgAllAppsList.added;

@@ -114,10 +114,10 @@ public class InvariantDeviceProfile {
         numFolderRows = 2;
         numFolderColumns = 3;
         minAllAppsPredictionColumns = maapc;
-        iconSize = 80;
-        iconTextSize = 15;
+        iconSize = 82;//单独修改图标大小，hotseat边距也会有变化，要与hotseatIconSize同步修改
+        iconTextSize = 16;//图标文字大小
         numHotseatIcons = 1;
-        hotseatIconSize = 80;
+        hotseatIconSize = 82;
         defaultLayoutId = dlId;
     }
 

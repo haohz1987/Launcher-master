@@ -2812,14 +2812,14 @@ public class Launcher extends Activity
      * Event handler for a click on the settings button that appears after a long press
      * on the home screen.
      */
-    protected void onClickSettingsButton(View v) {
-        if (DEBUG) LogT.d("onClickSettingsButton");
-        if (mLauncherCallbacks != null) {
-            mLauncherCallbacks.onClickSettingsButton(v);
-        } else {
-            startActivity(new Intent(this, SettingsActivity.class));
-        }
-    }
+//    protected void onClickSettingsButton(View v) {
+//        if (DEBUG) LogT.d("onClickSettingsButton");
+//        if (mLauncherCallbacks != null) {
+//            mLauncherCallbacks.onClickSettingsButton(v);
+//        } else {
+//            startActivity(new Intent(this, SettingsActivity.class));
+//        }
+//    }
 
     public View.OnTouchListener getHapticFeedbackTouchListener() {
         if (mHapticFeedbackTouchListener == null) {

@@ -116,4 +116,9 @@
     <declare-styleable name="InsettableFrameLayout_Layout">
         <attr name="layout_ignoreInsets" format="boolean" />
     </declare-styleable>
+    <declare-styleable name="NetSpeedView">
+        <attr name="net_textcolor" format="color"/>
+        <attr name="netvalue_textcolor" format="color"/>
+        <attr name="net_textsize" format="dimension"/>
+    </declare-styleable>
 </resources>

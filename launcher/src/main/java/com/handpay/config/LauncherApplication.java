@@ -1,8 +1,11 @@
 package com.handpay.config;
 
 import android.app.Application;
+import android.content.Context;
+import android.util.Log;
 
 import com.handpay.launch.LauncherAppState;
+import com.handpay.launch.util.LogT;
 
 /**
  * 在launcher.java中定义了单例类LauncherAppState，调用
@@ -11,11 +14,22 @@ import com.handpay.launch.LauncherAppState;
  * 由于launcher3z只有一个activity，LauncherApplication不需要调用
  */
 public class LauncherApplication extends Application{
+    private static LauncherApplication lcApp;
+    public static Context mContext;
+    public static LauncherApplication getInstance() {
+        return lcApp;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        lcApp = this;
+        mContext = getApplicationContext();
+        LogT.init(true, Log.VERBOSE);//不输出到文件
+//        Thread.setDefaultUncaughtExceptionHandler(new CustomerExceptionHandler());
         LauncherAppState.setApplicationContext(this);
         LauncherAppState.getInstance();
+
     }
     /* 使用Application如果保存了一些不该保存的对象很容易导致内存泄漏。
     如果在Application的oncreate中执行比较 耗时的操作，将直接影响的程序的启动时间。

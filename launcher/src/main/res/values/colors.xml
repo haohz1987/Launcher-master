@@ -56,7 +56,23 @@
     <color name="color_3">#91d400</color>
     <color name="color_4">#f4c728</color>
     <color name="color_5">#f5a2bb</color>
-    <color name="color_6">#2abd95</color>
+    <color name="color_6">#7A8469</color>
 
+    <color name="color_wifi">#00b1fe</color>
+    <color name="color_xianshi">#98d626</color>
+    <color name="color_lanya">#f79f2c</color>
+    <color name="color_yidongwangluo">#96b1f1</color>
+    <color name="color_vpn">#eecd4a</color>
+    <color name="color_cunchuxinxi">#f278be</color>
+    <color name="color_liuliangchakan">#28be94</color>
+    <color name="color_sound">#f99f28</color>
+    <color name="color_banben">#8fd500</color>
+    <color name="color_sort">#29BD97</color>
+    <color name="color_download">#7F7F7F</color>
+    <color name="color_system_setting">#90acee</color>
+    <color name="color_quite_app">#01b2ff</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="Iconcolor">#cccc00</color>
 
 </resources>

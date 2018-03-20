@@ -19,6 +19,7 @@ package com.handpay.launch;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.view.View;
@@ -26,11 +27,11 @@ import android.view.accessibility.AccessibilityManager;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
 import com.handpay.launch.util.Thunk;
+import com.handpay.settings.SettingsActivity;
 
 /*
  * Ths bar will manage the transition between the QSB search bar and the delete drop
@@ -131,8 +132,7 @@ public class SearchDropTargetBar extends FrameLayout implements DragController.D
         mInfoDropTarget.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Toast.makeText(mContext,"设置",Toast.LENGTH_SHORT).show();
+                mContext.startActivity(new Intent(mContext, SettingsActivity.class));
             }
         });
 

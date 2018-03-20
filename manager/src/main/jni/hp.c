@@ -29,3 +29,10 @@ Java_com_handpay_config_LauncherConfig_stringsFromJNI(JNIEnv* env,jobject thiz )
 	  }
 	  return args;
 }
+    //测试
+//    public static String APPSERVER = "http://10.148.181.132:8080/hpaySft";//132测试环境
+    //测试
+//    public static String APPSERVER = "http://10.148.181.172:8080/hpaySft";//172测试环境
+    // 生产
+//	public static String APPSERVER	= "https://mpay.handpay.cn/hpaySft";//生产环境 单向认证	 打开IsHttpsOne																																																											// 生产
+//	public static String APPSERVER	= "https://safepay.handpay.cn/hpaySft";//生产环境 双向认证 打开IsHttpsDouble

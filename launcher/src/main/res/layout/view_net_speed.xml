@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/linLayoutSmall"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/white"
+    android:orientation="horizontal"
+    android:paddingLeft="2dp"
+    android:paddingRight="2dp">
+
+    <include layout="@layout/top_bar" />
+
+
+    <RelativeLayout 
+        android:id="@+id/rlLayoutBig"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="#00000000"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/MobileTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="移动网络上传↑:  "
+            android:textColor="#ffffff"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/tvMobileTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/MobileTx"
+            android:layout_toRightOf="@+id/MobileTx"
+            android:text="0KB/s"
+            android:textColor="#ffffff"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/MobileRx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/MobileTx"
+            android:text="移动网络下载↓:  "
+            android:textColor="#ffffff"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/tvMobileRx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvMobileTx"
+            android:layout_toEndOf="@+id/MobileRx"
+            android:layout_toRightOf="@+id/MobileRx"
+            android:text="0KB/s"
+            android:textColor="#ffffff"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/WlanTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/MobileRx"
+            android:text="WIFI网络上传↑:  "
+            android:textColor="#ffffff"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/tvWlanTx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvMobileRx"
+            android:layout_toEndOf="@+id/WlanTx"
+            android:layout_toRightOf="@+id/WlanTx"
+            android:text="0KB/s"
+            android:textColor="#ffffff"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/WlanRx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/WlanTx"
+            android:text="WIFI网络下载↓:  "
+            android:textColor="#ffffff"
+            android:textSize="9sp" />
+
+        <TextView
+            android:id="@+id/tvWlanRx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvWlanTx"
+            android:layout_toEndOf="@+id/WlanRx"
+            android:layout_toRightOf="@+id/WlanRx"
+            android:text="0KB/s"
+            android:textColor="#ffffff"
+            android:textSize="9sp" />
+
+    </RelativeLayout>
+
+</LinearLayout>

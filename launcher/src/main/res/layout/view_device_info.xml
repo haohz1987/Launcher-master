@@ -1,0 +1,86 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/tv_cpu"
+        style="@style/textview_custom"
+        android:text="CPU" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/tv_manufacturer"-->
+        <!--style="@style/textview_custom"-->
+        <!--android:text="设备厂商" />-->
+    <TextView
+        android:id="@+id/tv_model"
+        style="@style/textview_custom"
+        android:text="设备型号" />
+
+    <TextView
+        android:id="@+id/tv_version"
+        style="@style/textview_custom"
+        android:text="Android 版本：" />
+
+    <TextView
+        android:id="@+id/tv_resolution"
+        style="@style/textview_custom"
+        android:text="分辨率" />
+    <TextView
+        android:id="@+id/tv_sd"
+        style="@style/textview_custom"
+        android:text="sd卡总容量" />
+
+    <TextView
+        android:id="@+id/tv_available_sd"
+        style="@style/textview_custom"
+        android:text="sd卡剩余容量" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="5dp"
+        android:background="@android:color/darker_gray"
+        />
+
+    <TextView
+        android:id="@+id/tv_cpu_percent"
+        style="@style/textview_custom"
+        android:text="CPU使用率" />
+
+    <TextView
+        android:id="@+id/tv_brightness"
+        style="@style/textview_custom"
+        android:text="屏幕亮度" />
+
+    <TextView
+        android:id="@+id/tv_ram_total"
+        style="@style/textview_custom"
+        android:text="RAM总容量" />
+
+    <TextView
+        android:id="@+id/tv_used_ram"
+        style="@style/textview_custom"
+        android:text="已使用的RAM" />
+
+    <TextView
+        android:id="@+id/tv_available_ram"
+        style="@style/textview_custom"
+        android:text="可用的RAM容量" />
+
+    <TextView
+        android:id="@+id/tv_available_ram_percent"
+        style="@style/textview_custom"
+        android:text="可用的RAM比例" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_margin="5dp"
+        android:background="@android:color/darker_gray"
+        />
+
+
+
+</LinearLayout>
+

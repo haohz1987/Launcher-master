@@ -15,7 +15,7 @@
 -->
 
 <resources>
-    <dimen name="app_icon_size">128dp</dimen>
+    <dimen name="app_icon_size">140dp</dimen>
 
 <!-- Dynamic Grid -->
     <dimen name="dynamic_grid_edge_margin">6dp</dimen>
@@ -25,7 +25,7 @@
     <dimen name="dynamic_grid_icon_drawable_padding">4dp</dimen>
     <dimen name="dynamic_grid_workspace_page_spacing">8dp</dimen>
     <dimen name="dynamic_grid_overview_min_icon_zone_height">80dp</dimen>
-    <dimen name="dynamic_grid_overview_max_icon_zone_height">120dp</dimen>
+    <dimen name="dynamic_grid_overview_max_icon_zone_height">140dp</dimen>
     <dimen name="dynamic_grid_overview_bar_item_width">80dp</dimen>
     <dimen name="dynamic_grid_overview_bar_spacer_width">20dp</dimen>
 
