@@ -1,6 +1,6 @@
 Launcher3
 =========
-[apk体验包下载]()
+[apk体验包下载](https://github.com/haohz1987/Launcher-master/blob/master/manager-release.apk)
 瀚银钱包生产版演示
 
 ！[img]()
