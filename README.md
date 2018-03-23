@@ -1,10 +1,7 @@
 Launcher3
 =========
-[apk体验包下载](https://github.com/haohz1987/Launcher-master/blob/master/manager-release.apk)
-瀚银钱包生产版演示
+[apk体验包下载](https://github.com/haohz1987/Launcher-master/blob/master/img/manager-release.apk)
 
-！[img]()
-！[img]()
 >jni防反编译步骤
 
 * 创建工程manager -> main下创建*.mk,*.c文件
@@ -24,6 +21,8 @@ Launcher3
     或者修改
     // 非生产地址，打印log，并设置银联测试地址；生产地址，不打印log，设置银联生产地址
   if (!SERVER.contains(ser)) {……}
+
+  ！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/jni_test.jpg)
 
 >流程图
 
@@ -175,3 +174,11 @@ OverviewPanel壁纸选择部分代码
 
 [参考博客地址](http://blog.csdn.net/dingfengnupt88/article/details/51800057?locationNum=15)
 
+瀚银钱包生产版演示
+
+！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/hyqb01.gif)
+！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/hyqb2.gif)
+小贷产品演示：
+！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE.jpg)
+！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81.jpg)
+！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E9%A6%96%E9%A1%B5.jpg)
