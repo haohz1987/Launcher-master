@@ -1,8 +1,10 @@
 Launcher3
 =========
-[apk体验包下载](https://github.com/haohz1987/Launcher/blob/master/launcher3-debug.apk)
+[apk体验包下载]()
+瀚银钱包生产版演示
 
-[参考博客地址](http://blog.csdn.net/dingfengnupt88/article/details/51800057?locationNum=15)
+！[img]()
+！[img]()
 >jni防反编译步骤
 
 * 创建工程manager -> main下创建*.mk,*.c文件
@@ -170,4 +172,6 @@ OverviewPanel壁纸选择部分代码
 修改类DeleteDropTarget、InfoDropTarget的supportsDrop()方法，及
 通用接口DragSource：supportsDeleteDropTarget()返回值。
 
+
+[参考博客地址](http://blog.csdn.net/dingfengnupt88/article/details/51800057?locationNum=15)
 
