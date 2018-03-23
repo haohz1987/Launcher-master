@@ -22,7 +22,7 @@ Launcher3
     // 非生产地址，打印log，并设置银联测试地址；生产地址，不打印log，设置银联生产地址
   if (!SERVER.contains(ser)) {……}
 
-  ！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/jni_test.jpg)
+ ![img](https://github.com/haohz1987/Launcher-master/blob/master/img/jni_test.jpg)
 
 >流程图
 
@@ -176,9 +176,9 @@ OverviewPanel壁纸选择部分代码
 
 瀚银钱包生产版演示
 
-！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/hyqb01.gif)
-！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/hyqb2.gif)
+![img](https://github.com/haohz1987/Launcher-master/blob/master/img/hyqb01.gif)
+![img](https://github.com/haohz1987/Launcher-master/blob/master/img/hyqb2.gif)
 小贷产品演示：
-！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE.jpg)
-！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81.jpg)
-！[img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E9%A6%96%E9%A1%B5.jpg)
+![img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE.jpg)
+![img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81.jpg)
+![img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E9%A6%96%E9%A1%B5.jpg)
