@@ -3,6 +3,25 @@ Launcher3
 [apk体验包下载](https://github.com/haohz1987/Launcher/blob/master/launcher3-debug.apk)
 
 [参考博客地址](http://blog.csdn.net/dingfengnupt88/article/details/51800057?locationNum=15)
+>jni防反编译步骤
+
+* 创建工程manager -> main下创建*.mk,*.c文件
+* 将原项目中的AndroidManifest.xml文件迁移过来
+* 最外层gradle.properties文件加上旧版代码支持，android.useDeprecatedNdk=true
+* 将服务端地址、非对称加密文件公钥等信息加入到*.c，在build.gradle中添加c编译支撑
+
+    externalNativeBuild {
+        ndkBuild {  path 'src/main/jni/Android.mk' }
+    }
+* 配置项目文件，调用C程序，详见NativeEngine,LauncherConfig
+* 测试是否成功调用：进入主程序，显示配置测试服务端参数的弹窗.屏蔽弹窗修改
+
+  // 测试环境-177
+   ENV = new TestEnv("10.148.181.177", 8080, VERSION, CHANNEL, "", true, true);
+   调用代码在Launcher.java中的onresume()(配置IPC通讯入口)
+    或者修改
+    // 非生产地址，打印log，并设置银联测试地址；生产地址，不打印log，设置银联生产地址
+  if (!SERVER.contains(ser)) {……}
 
 >流程图
 

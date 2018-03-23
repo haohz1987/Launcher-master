@@ -57,7 +57,8 @@ public class LauncherViewPropertyAnimator extends Animator implements AnimatorLi
     ArrayList<Animator.AnimatorListener> mListeners = new ArrayList<>();
     boolean mRunning = false;
     FirstFrameAnimatorHelper mFirstFrameHelper;
-
+    public static final boolean DEBUG = Launcher.DEBUG;//开启LogT
+    
     public LauncherViewPropertyAnimator(View target) {
         mTarget = target;
     }
@@ -110,7 +111,7 @@ public class LauncherViewPropertyAnimator extends Animator implements AnimatorLi
 
     @Override
     public void onAnimationEnd(Animator animation) {
-       if(Launcher.DEBUG) LogT.w("onAnimationEnd");
+       if(DEBUG) LogT.w("onAnimationEnd");
         for (int i = 0; i < mListeners.size(); i++) {
             Animator.AnimatorListener listener = mListeners.get(i);
             listener.onAnimationEnd(this);
@@ -120,7 +121,7 @@ public class LauncherViewPropertyAnimator extends Animator implements AnimatorLi
 
     @Override
     public void onAnimationRepeat(Animator animation) {
-        if(Launcher.DEBUG) LogT.w("onAnimationRepeat");
+        if(DEBUG) LogT.w("onAnimationRepeat");
         for (int i = 0; i < mListeners.size(); i++) {
             Animator.AnimatorListener listener = mListeners.get(i);
             listener.onAnimationRepeat(this);
@@ -129,7 +130,7 @@ public class LauncherViewPropertyAnimator extends Animator implements AnimatorLi
 
     @Override
     public void onAnimationStart(Animator animation) {
-        if(Launcher.DEBUG) LogT.w("onAnimationStart");
+        if(DEBUG) LogT.w("onAnimationStart");
         mFirstFrameHelper.onAnimationStart(animation);
         for (int i = 0; i < mListeners.size(); i++) {
             Animator.AnimatorListener listener = mListeners.get(i);

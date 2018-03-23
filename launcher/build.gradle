@@ -8,7 +8,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
     }
     buildTypes {
         release {
@@ -22,6 +22,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
+    implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.lzy.net:okgo:3.0.4'
     implementation 'com.lzy.net:okserver:2.0.5'
     implementation project(':wallpaperpick')

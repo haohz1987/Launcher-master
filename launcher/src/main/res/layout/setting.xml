@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:drawable/ic_dialog_info"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/et_domain"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/color_download"
+        android:ems="10"
+        android:inputType="text" >
+
+        <requestFocus />
+    </EditText>
+
+    <EditText
+        android:id="@+id/et_domains"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/color_download"
+        android:ems="10"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/et_port"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/color_download"
+        android:ems="10"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/et_csn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/color_download"
+        android:ems="10"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/et_channel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/color_download"
+        android:ems="10"
+        android:inputType="text|textCapCharacters" />
+    <EditText
+        android:id="@+id/et_clientVersion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColorHint="@color/color_download"
+        android:ems="10"
+        android:inputType="text|textCapCharacters" />
+        <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:textSize="18sp"
+        	android:text="@string/client_channel" />
+        <EditText
+        	android:id="@+id/et_clientchannel"
+        	android:layout_width="match_parent"
+        	android:layout_height="wrap_content"
+            android:textColorHint="@color/color_download"
+        	android:ems="10"
+        	android:inputType="text|textCapCharacters" />
+    </LinearLayout>
+
+</LinearLayout>

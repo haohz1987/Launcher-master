@@ -1,0 +1,32 @@
+{
+  "buildFiles": [
+    "C:\\Users\\hzhao\\Desktop\\project\\Launcher-master\\manager\\src\\main\\jni\\Android.mk"
+  ],
+  "cleanCommands": [
+    "D:\\AsSDK\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dC:\\Users\\hzhao\\Desktop\\project\\Launcher-master\\manager\\src\\main\\jni\\Android.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dC:/Users/hzhao/Desktop/project/Launcher-master/manager/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003dC:\\Users\\hzhao\\Desktop\\project\\Launcher-master\\manager\\build\\intermediates\\ndkBuild\\debug\\lib clean"
+  ],
+  "libraries": {
+    "launcher_native-debug-x86": {
+      "buildCommand": "D:\\AsSDK\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dC:\\Users\\hzhao\\Desktop\\project\\Launcher-master\\manager\\src\\main\\jni\\Android.mk APP_ABI\u003dx86 NDK_ALL_ABIS\u003dx86 NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-16 NDK_OUT\u003dC:/Users/hzhao/Desktop/project/Launcher-master/manager/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003dC:\\Users\\hzhao\\Desktop\\project\\Launcher-master\\manager\\build\\intermediates\\ndkBuild\\debug\\lib C:/Users/hzhao/Desktop/project/Launcher-master/manager/build/intermediates/ndkBuild/debug/obj/local/x86/liblauncher_native.so",
+      "toolchain": "toolchain-x86",
+      "abi": "x86",
+      "artifactName": "launcher_native",
+      "files": [
+        {
+          "src": "C:\\Users\\hzhao\\Desktop\\project\\Launcher-master\\manager\\src\\main\\jni\\manager.c",
+          "flags": "\"-gcc-toolchain\" \"D:/AsSDK/ndk-bundle/build//../toolchains/x86-4.9/prebuilt/windows-x86_64\" \"-target\" \"i686-none-linux-android\" \"-ffunction-sections\" \"-funwind-tables\" \"-fstack-protector-strong\" \"-fPIC\" \"-Wno-invalid-command-line-argument\" \"-Wno-unused-command-line-argument\" \"-no-canonical-prefixes\" \"-g\" \"-O0\" \"-UNDEBUG\" \"-fno-limit-debug-info\" \"-IC:/Users/hzhao/Desktop/project/Launcher-master/manager/src/main/jni\" \"-DANDROID\" \"-D__ANDROID_API__\u003d16\" \"-Wa,--noexecstack\" \"-Wformat\" \"-Werror\u003dformat-security\" \"-mstackrealign\" \"--sysroot\" \"D:/AsSDK/ndk-bundle/build//../sysroot\" \"-isystem\" \"D:/AsSDK/ndk-bundle/build//../sysroot/usr/include/i686-linux-android\""
+        }
+      ],
+      "output": "C:\\Users\\hzhao\\Desktop\\project\\Launcher-master\\manager\\build\\intermediates\\ndkBuild\\debug\\obj\\local\\x86\\liblauncher_native.so"
+    }
+  },
+  "toolchains": {
+    "toolchain-x86": {
+      "cCompilerExecutable": "D:\\AsSDK\\ndk-bundle\\build\\..\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": []
+}

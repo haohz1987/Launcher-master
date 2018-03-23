@@ -2,6 +2,7 @@ package com.handpay.config;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.handpay.launch.LauncherAppState;
@@ -21,10 +22,22 @@ public class LauncherApplication extends Application{
     }
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         lcApp = this;
         mContext = getApplicationContext();
+        if (LauncherConfig.isUseHTTPS) {
+          String x=  LauncherConfig.ENV.TEV;
+//            ClientEngine.getInstance().init(this, SmartPosConfig.ENV.HPV, "https://" + SmartPosConfig.ENV.SERVER.trim() + "/hpayMicroView/", SmartPosConfig.ENV.CHAN);
+//        } else {
+//            ClientEngine.getInstance().init(this, SmartPosConfig.ENV.HPV, "http://" + SmartPosConfig.ENV.SERVER.trim() + ":" + SmartPosConfig.ENV.PORT + "/hpayMicroView/", SmartPosConfig.ENV.CHAN);
+        }
         LogT.init(true, Log.VERBOSE);//不输出到文件
 //        Thread.setDefaultUncaughtExceptionHandler(new CustomerExceptionHandler());
         LauncherAppState.setApplicationContext(this);

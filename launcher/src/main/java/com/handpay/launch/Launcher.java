@@ -45,6 +45,7 @@ import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
@@ -91,11 +92,13 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.OvershootInterpolator;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Advanceable;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.handpay.config.LauncherConfig;
 import com.handpay.launch.DropTarget.DragObject;
 import com.handpay.launch.PagedView.PageSwitchListener;
 import com.handpay.launch.allapps.AllAppsContainerView;
@@ -104,6 +107,7 @@ import com.handpay.launch.compat.LauncherActivityInfoCompat;
 import com.handpay.launch.compat.LauncherAppsCompat;
 import com.handpay.launch.compat.UserHandleCompat;
 import com.handpay.launch.compat.UserManagerCompat;
+import com.handpay.launch.hp.R;
 import com.handpay.launch.model.WidgetsModel;
 import com.handpay.launch.util.ComponentKey;
 import com.handpay.launch.util.LogT;
@@ -112,6 +116,7 @@ import com.handpay.launch.util.Thunk;
 import com.handpay.launch.widget.PendingAddWidgetInfo;
 import com.handpay.launch.widget.WidgetHostViewLoader;
 import com.handpay.launch.widget.WidgetsContainerView;
+import com.handpay.safe.SecureManager;
 
 import java.io.File;
 import java.io.FileDescriptor;
@@ -135,6 +140,11 @@ public class Launcher extends Activity
         implements View.OnClickListener, OnLongClickListener, LauncherModel.Callbacks,
         View.OnTouchListener, PageSwitchListener, LauncherProviderChangeListener {
     public static final boolean DEBUG = true;//开启LogT
+
+    private boolean isTestUrl = true;
+    //是否为第三方发起,这里是其他进程调用当前app的入口
+    public static boolean isFromOtherFlatform = false;
+
     static final boolean PROFILE_STARTUP = false;
     static final boolean DEBUG_WIDGETS = true;
     //  打开严苛模式，可选监视UI线程和虚拟机策略,默认false
@@ -356,6 +366,10 @@ public class Launcher extends Activity
     // We only want to get the SharedPreferences once since it does an FS stat each time we get
     // it from the context.
     private SharedPreferences mSharedPrefs;
+    //创建快捷方式的数量
+    private int i;
+    //测试选择不同服务器
+    private AlertDialog dialog;
 
     // Holds the page that we need to animate to, and the icon views that we need to animate up
     // when we scroll to that page on resume.
@@ -463,6 +477,17 @@ public class Launcher extends Activity
 
         super.onCreate(savedInstanceState);
 
+		/**
+		 * 非常重要：每台设备仅记录首次安装激活的渠道，如果该设备再次安装其他渠道包， 则数据仍会被记录在初始的安装渠道上。
+		 * 所以在测试不同的渠道时，请使用不同的设备来分别测试。 也可使用集成测试功能进行测试。
+		 */
+        // 设置umeng channel.是oem的渠道。上传的渠道不支持用户自定义
+//        AnalyticsConfig.setChannel(LauncherConfig.CLIENT_CHANNEL);
+//        MobclickAgent.setDebugMode(LauncherConfig.ENV.PRINTLOG);
+//        AnalyticsConfig.enableEncrypt(true);
+//        MobclickAgent.updateOnlineConfig(this);
+//        MobclickAgent.setCatchUncaughtExceptions(false);// exception
+
         LauncherAppState.setApplicationContext(getApplicationContext());
         LauncherAppState app = LauncherAppState.getInstance();
 
@@ -506,7 +531,7 @@ public class Launcher extends Activity
                     Environment.getExternalStorageDirectory() + "/launcher");
         }
 
-        setContentView(com.handpay.launch.hp.R.layout.launcher);
+        setContentView(R.layout.launcher);
 
         setupViews();// 获取控件并初始化
         mDeviceProfile.layout(this);// 放置布局中的各个控件
@@ -557,21 +582,26 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onCreate(savedInstanceState);
             if (mLauncherCallbacks.hasLauncherOverlay()) {
-                ViewStub stub = (ViewStub) findViewById(com.handpay.launch.hp.R.id.launcher_overlay_stub);
+                ViewStub stub = (ViewStub) findViewById(R.id.launcher_overlay_stub);
                 mLauncherOverlayContainer = (InsettableFrameLayout) stub.inflate();
                 mLauncherOverlay = mLauncherCallbacks.setLauncherOverlayView(
                         mLauncherOverlayContainer, mLauncherOverlayCallbacks);
                 mWorkspace.setLauncherOverlay(mLauncherOverlay);
             }
         }
-        // 第一次启动时加载用户提示界面
+        /* 第一次启动时加载用户提示界面，显示引导页面 */
         if (shouldShowIntroScreen()) {
+            LogT.w("显示介绍引导页面，shouldShowIntroScreen()="+shouldShowIntroScreen());
             showIntroScreen();
         } else {
+            LogT.w("显示第一次运行引导页面，showFirstRunClings()");
             showFirstRunActivity();
             showFirstRunClings();
         }
     }
+
+
+
 
     @Override
     public void onSettingsChanged(String settings, boolean value) {
@@ -937,8 +967,8 @@ public class Launcher extends Activity
                 startActivity(v, intent, null);
             } else {
                 // TODO: Show a snack bar with link to settings
-                Toast.makeText(this, getString(com.handpay.launch.hp.R.string.msg_no_phone_permission,
-                        getString(com.handpay.launch.hp.R.string.app_name)), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.msg_no_phone_permission,
+                        getString(R.string.app_name)), Toast.LENGTH_SHORT).show();
             }
         }
         if (mLauncherCallbacks != null) {
@@ -1049,6 +1079,125 @@ public class Launcher extends Activity
 
         super.onResume();
 
+        SecureManager.getInstance().CheckDesKey();
+        if(LauncherConfig.ENV.CANSET){
+            if (dialog != null && dialog.isShowing()) {
+                return;
+            }
+            final AlertDialog.Builder ab = new AlertDialog.Builder(this);
+            LayoutInflater li= LayoutInflater.from(this);
+            View content = li.inflate(R.layout.setting,null);
+            final EditText etDomain = (EditText)content.findViewById(R.id.et_domain);
+            final EditText etDomains = (EditText) content.findViewById(R.id.et_domains);
+            String urls = LauncherConfig.ENV.TESERVER;
+            if (isTestUrl) {
+                etDomain.setHint(urls.substring(0, urls.lastIndexOf(".") + 1));
+                etDomains.setHint(urls.substring(urls.lastIndexOf(".") + 1));
+                etDomains.setVisibility(View.VISIBLE);
+            } else {
+                etDomains.setVisibility(View.GONE);
+                etDomain.setHint(urls);
+            }
+            final EditText etPort = (EditText) content.findViewById(R.id.et_port);
+            etPort.setHint(String.valueOf(LauncherConfig.ENV.PORT));
+            final EditText etCsn = (EditText) content.findViewById(R.id.et_csn);
+            if (LauncherConfig.ENV.SWIPERCSN) {
+                etCsn.setEnabled(false);
+                etCsn.setHint(R.string.welcome_hint);
+            } else {
+                etCsn.setHint(LauncherConfig.ENV.TECSN);
+            }
+            final EditText etChannel = (EditText) content.findViewById(R.id.et_channel);
+            etChannel.setHint(LauncherConfig.ENV.TECHANNEL);
+
+            final EditText etClientVersion = (EditText) content.findViewById(R.id.et_clientVersion);
+            final String[] mClientVersion = new String[1];
+            PackageInfo packageInfo = null;
+            try {
+                packageInfo = getApplicationContext()
+                        .getPackageManager()
+                        .getPackageInfo(getPackageName(), 0);
+                mClientVersion[0] = packageInfo.versionName;
+                etClientVersion.setHint(mClientVersion[0]);
+            } catch (NameNotFoundException e) {
+                e.printStackTrace();
+            }
+
+            final EditText etClientChannel = (EditText) content.findViewById(R.id.et_clientchannel);
+            etClientChannel.setHint(LauncherConfig.CLIENT_CHANNEL);
+
+            ab.setView(content);
+            ab.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String domain1 = etDomain.getText().toString();
+                    String domain = domain1;
+                    if (isTestUrl) {
+                        if (TextUtils.isEmpty(domain1)) {
+                            domain1 = etDomain.getHint().toString();
+                        }
+                        String domain2 = etDomains.getText().toString();
+                        if (TextUtils.isEmpty(domain2)) {
+                            domain2 = etDomains.getHint().toString();
+                        }
+                        domain = domain1 + domain2;
+                    }
+                    if (TextUtils.isEmpty(domain)) {
+                        domain = LauncherConfig.ENV.TESERVER;
+                    }
+                    LogT.w("FDL", domain);
+                    if (TextUtils.isEmpty(domain)) {
+                        domain = etDomain.getHint().toString();
+                    }
+                    String port = etPort.getText().toString();
+                    if (TextUtils.isEmpty(port)) {
+                        port = etPort.getHint().toString();
+                    }
+                    String csn = etCsn.getText().toString();
+                    if (TextUtils.isEmpty(csn)) {
+                        csn = etCsn.getHint().toString();
+                    }
+                    String channel = etChannel.getText().toString();
+                    if (TextUtils.isEmpty(channel)) {
+                        channel = etChannel.getHint().toString();
+                    }
+                    String clientVersion = etClientVersion.getText().toString();
+                    if (TextUtils.isEmpty(clientVersion)) {
+                        clientVersion = etClientVersion.getHint().toString();
+                    }
+                    String clientchannel = etClientChannel.getText().toString();
+                    if (TextUtils.isEmpty(clientchannel)) {
+                        clientchannel = etClientChannel.getHint().toString();
+                    }
+                    mClientVersion[0] = clientVersion;
+                    LauncherConfig.CLIENT_CHANNEL = clientchannel;
+                    // TODO: 2018/3/23 这里设置网络请求地址
+                    if (LauncherConfig.isUseHTTPS) {
+//                        ClientEngine.getInstance().init(Launcher.this.getApplicationContext(), LauncherConfig.ENV.TEV, "https://" + domain.trim() + LauncherConfig.SERVER_PATH, channel);
+                    } else {
+//                        ClientEngine.getInstance().init(Launcher.this.getApplicationContext(), LauncherConfig.ENV.TEV, "http://" + domain.trim() + ":" + port.trim() + LauncherConfig.SERVER_PATH, channel);
+                    }
+                    LauncherConfig.TestCsn = csn;
+                    if(isFromOtherFlatform){
+                        // TODO: 多进程通讯IPC入口
+//                        gotopay();
+                    }else{
+                        gotoLogin(ab.create());
+                    }
+                }
+            });
+            ab.setCancelable(false);
+            dialog = ab.create();
+            dialog.show();
+        }else{
+            if(isFromOtherFlatform){
+                // TODO: 多进程通讯IPC入口
+//                gotopay();
+            }else{
+                gotoLogin();
+            }
+        }
+
         // Restore the previous launcher state
         if (mOnResumeState == State.WORKSPACE) {
             showWorkspace(false);
@@ -1142,6 +1291,46 @@ public class Launcher extends Activity
             mLauncherCallbacks.onResume();
         }
     }
+    //这里模拟跳转到其他activity,临时注掉
+    private void gotoLogin(final AlertDialog ab) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ab.dismiss();
+//                        startActivity(new Intent(Launcher.this, LoginActivity.class));
+//                        Launcher.this.finish();
+                    }
+                });
+            }
+        }).start();
+    }
+    private void gotoLogin() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(1000);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+//                        startActivity(new Intent(Launcher.this, LoginActivity.class));
+//                        Launcher.this.finish();
+                    }
+                });
+            }
+        }).start();
+    }
 
     @Override
     protected void onPause() {
@@ -1210,14 +1399,7 @@ public class Launcher extends Activity
     }
 
     public interface LauncherSearchCallbacks {
-        /**
-         * Called when the search overlay is shown.
-         */
         public void onSearchOverlayOpened();
-
-        /**
-         * Called when the search overlay is dismissed.
-         */
         public void onSearchOverlayClosed();
     }
 
@@ -1421,27 +1603,27 @@ public class Launcher extends Activity
     private void setupViews() {
         final DragController dragController = mDragController;
 
-        mLauncherView = findViewById(com.handpay.launch.hp.R.id.launcher);
-        mFocusHandler = (FocusIndicatorView) findViewById(com.handpay.launch.hp.R.id.focus_indicator);
-        mDragLayer = (DragLayer) findViewById(com.handpay.launch.hp.R.id.drag_layer);
-        mWorkspace = (Workspace) mDragLayer.findViewById(com.handpay.launch.hp.R.id.workspace);
+        mLauncherView = findViewById(R.id.launcher);
+        mFocusHandler = (FocusIndicatorView) findViewById(R.id.focus_indicator);
+        mDragLayer = (DragLayer) findViewById(R.id.drag_layer);
+        mWorkspace = (Workspace) mDragLayer.findViewById(R.id.workspace);
         mWorkspace.setPageSwitchListener(this);
-        mPageIndicators = mDragLayer.findViewById(com.handpay.launch.hp.R.id.page_indicator);
+        mPageIndicators = mDragLayer.findViewById(R.id.page_indicator);
 
         mLauncherView.setSystemUiVisibility(
                 View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
-        mWorkspaceBackgroundDrawable = getResources().getDrawable(com.handpay.launch.hp.R.drawable.workspace_bg);
+        mWorkspaceBackgroundDrawable = getResources().getDrawable(R.drawable.workspace_bg);
 
         // Setup the drag layer
         mDragLayer.setup(this, dragController);
 
         // Setup the hotseat
-        mHotseat = (Hotseat) findViewById(com.handpay.launch.hp.R.id.hotseat);
+        mHotseat = (Hotseat) findViewById(R.id.hotseat);
         if (mHotseat != null) {
             mHotseat.setOnLongClickListener(this);
         }
 
-        mWidgetsButton = findViewById(com.handpay.launch.hp.R.id.widget_button);
+        mWidgetsButton = findViewById(R.id.widget_button);
         mWidgetsButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -1462,11 +1644,11 @@ public class Launcher extends Activity
 
         // Get the search/delete bar
         mSearchDropTargetBar = (SearchDropTargetBar)
-                mDragLayer.findViewById(com.handpay.launch.hp.R.id.search_drop_target_bar);
+                mDragLayer.findViewById(R.id.search_drop_target_bar);
 
         // Setup Apps and Widgets
-        mAppsView = (AllAppsContainerView) findViewById(com.handpay.launch.hp.R.id.apps_view);
-        mWidgetsView = (WidgetsContainerView) findViewById(com.handpay.launch.hp.R.id.widgets_view);
+        mAppsView = (AllAppsContainerView) findViewById(R.id.apps_view);
+        mWidgetsView = (WidgetsContainerView) findViewById(R.id.widgets_view);
         if (mLauncherCallbacks != null && mLauncherCallbacks.getAllAppsSearchBarController() != null) {
             mAppsView.setSearchBarController(mLauncherCallbacks.getAllAppsSearchBarController());
         } else {
@@ -1483,7 +1665,7 @@ public class Launcher extends Activity
             mSearchDropTargetBar.setQsbSearchBar(getOrCreateQsbBar());
         }
 
-        if (getResources().getBoolean(com.handpay.launch.hp.R.bool.debug_memory_enabled)) {
+        if (getResources().getBoolean(R.bool.debug_memory_enabled)) {
             LogT.w("adding WeightWatcher");
             mWeightWatcher = new WeightWatcher(this);
             mWeightWatcher.setAlpha(0.5f);
@@ -1531,7 +1713,12 @@ public class Launcher extends Activity
      * @return A View inflated from layoutResId.
      */
     public View createShortcut(ViewGroup parent, ShortcutInfo info) {
-        BubbleTextView favorite = (BubbleTextView) mInflater.inflate(com.handpay.launch.hp.R.layout.app_icon,
+
+        if(DEBUG) {
+            i++;
+            LogT.w("创建快捷方式:"+i);
+        }
+        BubbleTextView favorite = (BubbleTextView) mInflater.inflate(R.layout.app_icon,
                 parent, false);
         favorite.applyFromShortcutInfo(info, mIconCache);
         favorite.setCompoundDrawablePadding(mDeviceProfile.iconDrawablePaddingPx);
@@ -1848,7 +2035,7 @@ public class Launcher extends Activity
     }
 
     public void showOutOfSpaceMessage(boolean isHotseatLayout) {
-        int strId = (isHotseatLayout ? com.handpay.launch.hp.R.string.hotseat_out_of_space : com.handpay.launch.hp.R.string.out_of_space);
+        int strId = (isHotseatLayout ? R.string.hotseat_out_of_space : R.string.out_of_space);
         Toast.makeText(this, getString(strId), Toast.LENGTH_SHORT).show();
     }
 
@@ -2417,7 +2604,7 @@ public class Launcher extends Activity
     FolderIcon addFolder(CellLayout layout, long container, final long screenId, int cellX,
                          int cellY) {
         final FolderInfo folderInfo = new FolderInfo();
-        folderInfo.title = getText(com.handpay.launch.hp.R.string.folder_name);
+        folderInfo.title = getText(R.string.folder_name);
 
         // Update the model
         LauncherModel.addItemToDatabase(Launcher.this, folderInfo, container, screenId,
@@ -2426,7 +2613,7 @@ public class Launcher extends Activity
 
         // Create the view
         FolderIcon newFolder =
-                FolderIcon.fromXml(com.handpay.launch.hp.R.layout.folder_icon, this, layout, folderInfo, mIconCache);
+                FolderIcon.fromXml(R.layout.folder_icon, this, layout, folderInfo, mIconCache);
         mWorkspace.addInScreen(newFolder, container, screenId, cellX, cellY, 1, 1,
                 isWorkspaceLocked());
         // Force measure the new folder icon
@@ -2562,7 +2749,7 @@ public class Launcher extends Activity
      */
     public void onClickPendingWidget(final PendingAppWidgetHostView v) {
         if (mIsSafeModeEnabled) {
-            Toast.makeText(this, com.handpay.launch.hp.R.string.safemode_widget_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.safemode_widget_error, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -2624,10 +2811,10 @@ public class Launcher extends Activity
     private void showBrokenAppInstallDialog(final String packageName,
                                             DialogInterface.OnClickListener onSearchClickListener) {
         new AlertDialog.Builder(this)
-                .setTitle(com.handpay.launch.hp.R.string.abandoned_promises_title)
-                .setMessage(com.handpay.launch.hp.R.string.abandoned_promise_explanation)
-                .setPositiveButton(com.handpay.launch.hp.R.string.abandoned_search, onSearchClickListener)
-                .setNeutralButton(com.handpay.launch.hp.R.string.abandoned_clean_this,
+                .setTitle(R.string.abandoned_promises_title)
+                .setMessage(R.string.abandoned_promise_explanation)
+                .setPositiveButton(R.string.abandoned_search, onSearchClickListener)
+                .setNeutralButton(R.string.abandoned_clean_this,
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 final UserHandleCompat user = UserHandleCompat.myUserHandle();
@@ -2654,9 +2841,9 @@ public class Launcher extends Activity
         final ShortcutInfo shortcut = (ShortcutInfo) tag;
 
         if (shortcut.isDisabled != 0) {
-            int error = com.handpay.launch.hp.R.string.activity_not_available;
+            int error = R.string.activity_not_available;
             if ((shortcut.isDisabled & ShortcutInfo.FLAG_DISABLED_SAFEMODE) != 0) {
-                error = com.handpay.launch.hp.R.string.safemode_shortcut_error;
+                error = R.string.safemode_shortcut_error;
             }
             Toast.makeText(this, error, Toast.LENGTH_SHORT).show();
             return;
@@ -2785,7 +2972,7 @@ public class Launcher extends Activity
     protected void onClickAddWidgetButton(View view) {
         if (DEBUG) LogT.d("onClickAddWidgetButton");
         if (mIsSafeModeEnabled) {
-            Toast.makeText(this, com.handpay.launch.hp.R.string.safemode_widget_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.safemode_widget_error, Toast.LENGTH_SHORT).show();
         } else {
             showWidgetsView(true /* animated */, true /* resetPageToZero */);
             if (mLauncherCallbacks != null) {
@@ -2897,10 +3084,10 @@ public class Launcher extends Activity
             LauncherAppsCompat launcherApps = LauncherAppsCompat.getInstance(this);
             launcherApps.showAppDetailsForProfile(componentName, user);
         } catch (SecurityException e) {
-            Toast.makeText(this, com.handpay.launch.hp.R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
             LogT.w("Launcher does not have permission to launch settings");
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, com.handpay.launch.hp.R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
             LogT.w("Unable to launch settings");
         }
     }
@@ -2911,7 +3098,7 @@ public class Launcher extends Activity
         if ((flags & AppInfo.DOWNLOADED_FLAG) == 0) {
             // System applications cannot be installed. For now, show a toast explaining that.
             // We may give them the option of disabling apps this way.
-            int messageId = com.handpay.launch.hp.R.string.uninstall_system_app_text;
+            int messageId = R.string.uninstall_system_app_text;
             Toast.makeText(this, messageId, Toast.LENGTH_SHORT).show();
             return false;
         } else {
@@ -2973,7 +3160,7 @@ public class Launcher extends Activity
                     // On L MR1 devices, we a custom version of the slide-up transition which
                     // doesn't have the delay present in the device default.
                     opts = ActivityOptions.makeCustomAnimation(this,
-                            com.handpay.launch.hp.R.anim.task_open_enter, com.handpay.launch.hp.R.anim.no_anim);
+                            R.anim.task_open_enter, R.anim.no_anim);
                 }
                 optsBundle = opts != null ? opts.toBundle() : null;
             }
@@ -3004,7 +3191,7 @@ public class Launcher extends Activity
                     return false;
                 }
             }
-            Toast.makeText(this, com.handpay.launch.hp.R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
             LogT.w("Launcher does not have the permission to launch " + intent +
                     ". Make sure to create a MAIN intent-filter for the corresponding activity " +
                     "or use the exported attribute for this activity. "
@@ -3016,13 +3203,13 @@ public class Launcher extends Activity
     public boolean startActivitySafely(View v, Intent intent, Object tag) {
         boolean success = false;
         if (mIsSafeModeEnabled && !Utilities.isSystemApp(this, intent)) {
-            Toast.makeText(this, com.handpay.launch.hp.R.string.safemode_shortcut_error, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.safemode_shortcut_error, Toast.LENGTH_SHORT).show();
             return false;
         }
         try {
             success = startActivity(v, intent, tag);
         } catch (ActivityNotFoundException e) {
-            Toast.makeText(this, com.handpay.launch.hp.R.string.activity_not_found, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.activity_not_found, Toast.LENGTH_SHORT).show();
             LogT.w("Unable to launch. tag=" + tag + " intent=" + intent, e);
         }
         return success;
@@ -3102,7 +3289,7 @@ public class Launcher extends Activity
         if (Utilities.ATLEAST_LOLLIPOP) {
             oa.setInterpolator(new LogDecelerateInterpolator(100, 0));
         }
-        oa.setDuration(getResources().getInteger(com.handpay.launch.hp.R.integer.config_folderExpandDuration));
+        oa.setDuration(getResources().getInteger(R.integer.config_folderExpandDuration));
         oa.start();
     }
 
@@ -3119,7 +3306,7 @@ public class Launcher extends Activity
         copyFolderIconToImage(fi);
         ObjectAnimator oa = LauncherAnimUtils.ofPropertyValuesHolder(mFolderIconImageView, alpha,
                 scaleX, scaleY);
-        oa.setDuration(getResources().getInteger(com.handpay.launch.hp.R.integer.config_folderExpandDuration));
+        oa.setDuration(getResources().getInteger(R.integer.config_folderExpandDuration));
         oa.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
@@ -3572,7 +3759,7 @@ public class Launcher extends Activity
             mAppWidgetHost.setQsbWidgetId(widgetId);
             if (widgetId != -1) {
                 mQsb = mAppWidgetHost.createView(this, widgetId, searchProvider);
-                mQsb.setId(com.handpay.launch.hp.R.id.qsb_widget);
+                mQsb.setId(R.id.qsb_widget);
                 mQsb.updateAppWidgetOptions(opts);
                 mQsb.setPadding(0, 0, 0, 0);
                 mSearchDropTargetBar.addView(mQsb);
@@ -3598,13 +3785,13 @@ public class Launcher extends Activity
         text.clear();
         // Populate event with a fake title based on the current state.
         if (mState == State.APPS) {
-            text.add(getString(com.handpay.launch.hp.R.string.all_apps_button_label));
+            text.add(getString(R.string.all_apps_button_label));
         } else if (mState == State.WIDGETS) {
-            text.add(getString(com.handpay.launch.hp.R.string.widget_button_text));
+            text.add(getString(R.string.widget_button_text));
         } else if (mWorkspace != null) {
             text.add(mWorkspace.getCurrentPageDescription());
         } else {
-            text.add(getString(com.handpay.launch.hp.R.string.all_apps_home_button_label));
+            text.add(getString(R.string.all_apps_home_button_label));
         }
         return result;
     }
@@ -3857,7 +4044,7 @@ public class Launcher extends Activity
                     }
                     break;
                 case LauncherSettings.Favorites.ITEM_TYPE_FOLDER:
-                    view = FolderIcon.fromXml(com.handpay.launch.hp.R.layout.folder_icon, this,
+                    view = FolderIcon.fromXml(R.layout.folder_icon, this,
                             (ViewGroup) workspace.getChildAt(workspace.getCurrentPage()),
                             (FolderInfo) item, mIconCache);
                     break;
@@ -4123,7 +4310,7 @@ public class Launcher extends Activity
     private void sendLoadingCompleteBroadcastIfNecessary() {
         if (!mSharedPrefs.getBoolean(FIRST_LOAD_COMPLETE, false)) {
             String permission =
-                    getResources().getString(com.handpay.launch.hp.R.string.receive_first_load_broadcast_permission);
+                    getResources().getString(R.string.receive_first_load_broadcast_permission);
             Intent intent = new Intent(ACTION_FIRST_LOAD_COMPLETE);
             sendBroadcast(intent, permission);
             SharedPreferences.Editor editor = mSharedPrefs.edit();
@@ -4566,7 +4753,7 @@ public class Launcher extends Activity
         editor.putBoolean(INTRO_SCREEN_DISMISSED, true);
         editor.apply();
     }
-    /* 引导页面 */
+    /* 显示引导页面  */
     @Thunk void showFirstRunClings() {
         // The two first run cling paths are mutually exclusive, if the launcher is preinstalled
         // on the device, then we always show the first run cling experience (or if there is no

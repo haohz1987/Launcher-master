@@ -262,4 +262,6 @@
     <string name="certifyFailure">安全证书认证失败</string>
     <string name="phone_the_total_memory">手机总内存</string>
     <string name="the_available_memory">可用内存</string>
+    <string name="client_channel">客户端渠道号：</string>
+    <string name="welcome_hint">硬件识别时使用：使用刷卡器csn</string>
 </resources>

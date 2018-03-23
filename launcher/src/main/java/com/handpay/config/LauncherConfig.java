@@ -4,85 +4,71 @@ import com.handpay.safe.SecureManager;
 
 public class LauncherConfig {
 
-    public static String APPSERVER;             //  服务地址
-    public static String CHANNEL;               //  渠道
-    public static String HPVIRSION;             //  协议版本号
-    public static boolean isUseHTTPS = false;   //  是否使用双向认证
-    public static final String URL_PATH = "hpayMicroView/";
+    public static String SERVER; // 服务端生产地址
+    public static String CHANNEL;// 渠道
+    public static String VERSION;// 渠道
+    public static String ROOTLIST;//文件根目录
+    public static String CLIENT_CHANNEL;//升级渠道
+    public static String SELECET_DEVICE;//是否需要选择设备，智能pos需要后台配置SN码
+    public static boolean isUseHTTPS = true;   //  是否使用双向认证
+    public static final String SERVER_PATH = "/hp/";//次级地址
+    // 是否激活Activity,在调用其他功能时，不使用APP的功能
+    public static boolean isActive = false;
 
-    // for test
-    public static boolean isTesting = false;
-    public static final boolean isTestLocation = false;//是否允许输入经纬度。
-    public static final boolean isTestSelectLocation = false;
-    public static String testerCsn = "";
-    public static boolean SELECT_DEVICE_TYPE = true;
     public static TestEnv ENV;
-    public static String SECRETKEY = null;
+    /* 测试 */
+    public static String TestCsn = "";
 
+    static {
+        NativeEngine.NativeObject nativeObject = NativeEngine.initNativeLib();
+        SERVER = nativeObject.getAppServer();
+        CHANNEL = nativeObject.getChannel();
+        VERSION = nativeObject.getVersion();
+        SecureManager.sMod = nativeObject.getModulus();
+        SecureManager.sPubExp = nativeObject.getExponent();
+        ROOTLIST = nativeObject.getRootList();
+        CLIENT_CHANNEL = nativeObject.getClientChannel();
+        SELECET_DEVICE = nativeObject.getSelectDevice();
+
+
+        //生产环境
+        ENV = new TestEnv(nativeObject.getDomain(), 80, VERSION, CHANNEL, "", false, true);
+        // 测试环境-177
+        ENV = new TestEnv("10.148.181.177", 8080, VERSION, CHANNEL, "", true, true);
+
+        TestCsn = ENV.TECSN;
+
+    }
 
     public static class TestEnv {
-
-        public String SERVER;               // 服务端地址
+        public String TESERVER; // 服务端地址
         public int PORT;                    // 服务端口号
-        public String HPV;                  // 服务版本号
-        public String CSN;                  // 使用的csn
+        public String TEV;                  // 服务版本号
+        public String TECSN;                  // 使用的csn
         public boolean CANSET;              // 是否允许自己设置配置
         public boolean SWIPERCSN;           // 是否使用刷卡器csn
-        public String CHAN;                 // 渠道号
+        public String TECHANNEL;                 // 渠道号
         public boolean BALANCE_ENQUIRE_UP;  // 标志余额查询，使用银联与否
         public boolean PRINTLOG = false;    // 是否打印log
         public boolean REPLACEDOMAIN = false;  // 是否需要替换地址
-        public static String UPDATE_CHANNEL;// 版本升级渠道
-        // 是否激活Activity,在调用其他功能时，不使用APP的功能
-        public static boolean isActive = false;
-        public native static String[] stringsFromJNI();
-        public static boolean isHttpsDouble = true;
-        static {
-            System.loadLibrary("hp_native");
-            String[] strings = stringsFromJNI();
-            APPSERVER = strings[0]; // 生产环境网址
-            CHANNEL = strings[1]; // 渠道号
-            HPVIRSION = strings[2]; // 协议版本号
-            SecureManager.sMod = strings[3];
-            SecureManager.sPubExp = strings[4];
 
-            // 测试环境-172
-            ENV = new TestEnv("10.148.181.132", 8080, HPVIRSION, CHANNEL, "", true, true);
-
-//            //生产-双向认证
-//            ENV = new TestEnv("https://mpay.handpay.cn/hpaySft", 8080, HPVIRSION, CHANNEL, "", false, true);
-//            isHttpsDouble=true;
-//
-//            //生产-单向认证
-//            ENV = new TestEnv("https://safepay.handpay.cn/hpaySft", 8080, HPVIRSION, CHANNEL, "", false, true);
-//            isHttpsDouble=false;
-
-            // 1表示需要选择
-            SELECT_DEVICE_TYPE = "1".equals(strings[16]);
-            UPDATE_CHANNEL = strings[17];
-            testerCsn = ENV.CSN;
-        }
-
-        TestEnv(String ser, int port, String hpversion, String channel, String csn, boolean canSet, boolean useSwiperCsn) {
-            SERVER = ser;
+        TestEnv(String ser, int port, String version, String channel, String csn, boolean canSet, boolean useSwiperCsn) {
+            TESERVER = ser;
             PORT = port;
-            HPV = hpversion;
-            CHAN = channel;
-            CSN = csn;
+            TEV = version;
+            TECHANNEL = channel;
+            TECSN = csn;
             CANSET = canSet;
             SWIPERCSN = useSwiperCsn;
             BALANCE_ENQUIRE_UP = false;
             // 非生产地址，打印log，并设置银联测试地址；生产地址，不打印log，设置银联生产地址
-            if (!APPSERVER.contains(ser)) {
+            if (!SERVER.contains(ser)) {
                 PRINTLOG = true;
                 isUseHTTPS = false;
-                isTesting = true;
             } else {
-                PRINTLOG = true;
+                PRINTLOG = false;
                 isUseHTTPS = true;
-                isTesting = false;
             }
         }
     }
-
 }

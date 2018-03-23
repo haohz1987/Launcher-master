@@ -16,7 +16,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_LDLIBS := -llog
-LOCAL_MODULE    := hp_native
-LOCAL_SRC_FILES := hp.c
+LOCAL_MODULE    := launcher_native
+LOCAL_SRC_FILES := manager.c
 
 include $(BUILD_SHARED_LIBRARY)

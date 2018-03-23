@@ -185,6 +185,10 @@
         <activity android:name="com.handpay.settings.NetSpeedActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoTitle" />
+        <activity android:name="com.handpay.settings.LoadProgressActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.NoTitle" />
+
         <service
             android:name="com.handpay.launch.MemoryTracker"
             android:enabled="@bool/debug_memory_enabled"/>

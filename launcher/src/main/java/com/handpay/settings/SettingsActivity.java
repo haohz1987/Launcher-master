@@ -130,7 +130,7 @@ public class SettingsActivity extends BaseActivity implements FinalAdapter.OnAda
                         break;
                     case 10://网速
                         startActivity(new Intent(SettingsActivity.this,NetSpeedActivity.class));
-//                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
                         break;
                     case 11://系统设置
 
