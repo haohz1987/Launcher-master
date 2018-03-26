@@ -82,7 +82,7 @@ public class LauncherAppState {
             throw new IllegalStateException("LauncherAppState inited before app context set");
         }
 
-        LogT.v("LauncherAppState inited");
+        LogT.w("LauncherAppState inited");
 
         if (sContext.getResources().getBoolean(R.bool.debug_memory_enabled)) {
             MemoryTracker.startTrackingMe(sContext, "L");

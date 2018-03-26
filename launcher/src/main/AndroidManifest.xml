@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.handpay.launch.hp">
     <uses-sdk android:targetSdkVersion="26" android:minSdkVersion="16"/>
+    <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
 
 
 </manifest>

@@ -98,6 +98,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.handpay.config.LauncherApplication;
 import com.handpay.config.LauncherConfig;
 import com.handpay.launch.DropTarget.DragObject;
 import com.handpay.launch.PagedView.PageSwitchListener;
@@ -211,6 +212,7 @@ public class Launcher extends Activity
 
     static final String INTRO_SCREEN_DISMISSED = "launcher.intro_screen_dismissed";
     static final String FIRST_RUN_ACTIVITY_DISPLAYED = "launcher.first_run_activity_displayed";
+  public static final String SET_ENV_DISMISSED = "launcher.set_env_dismissed";
 
     static final String FIRST_LOAD_COMPLETE = "launcher.first_load_complete";
     static final String ACTION_FIRST_LOAD_COMPLETE =
@@ -476,11 +478,11 @@ public class Launcher extends Activity
         }
 
         super.onCreate(savedInstanceState);
-
-		/**
-		 * 非常重要：每台设备仅记录首次安装激活的渠道，如果该设备再次安装其他渠道包， 则数据仍会被记录在初始的安装渠道上。
-		 * 所以在测试不同的渠道时，请使用不同的设备来分别测试。 也可使用集成测试功能进行测试。
-		 */
+        LauncherApplication.getInstance().addActivity(Launcher.this);
+        /**
+         * 非常重要：每台设备仅记录首次安装激活的渠道，如果该设备再次安装其他渠道包， 则数据仍会被记录在初始的安装渠道上。
+         * 所以在测试不同的渠道时，请使用不同的设备来分别测试。 也可使用集成测试功能进行测试。
+         */
         // 设置umeng channel.是oem的渠道。上传的渠道不支持用户自定义
 //        AnalyticsConfig.setChannel(LauncherConfig.CLIENT_CHANNEL);
 //        MobclickAgent.setDebugMode(LauncherConfig.ENV.PRINTLOG);
@@ -591,7 +593,7 @@ public class Launcher extends Activity
         }
         /* 第一次启动时加载用户提示界面，显示引导页面 */
         if (shouldShowIntroScreen()) {
-            LogT.w("显示介绍引导页面，shouldShowIntroScreen()="+shouldShowIntroScreen());
+            LogT.w("显示介绍引导页面，shouldShowIntroScreen()=" + shouldShowIntroScreen());
             showIntroScreen();
         } else {
             LogT.w("显示第一次运行引导页面，showFirstRunClings()");
@@ -599,8 +601,6 @@ public class Launcher extends Activity
             showFirstRunClings();
         }
     }
-
-
 
 
     @Override
@@ -771,7 +771,7 @@ public class Launcher extends Activity
      * a configuration step, this allows the proper animations to run after other transitions.
      */
     private long completeAdd(PendingAddArguments args) {
-        if(DEBUG) LogT.w("completeAdd,PendingAddArguments="+args);
+        if (DEBUG) LogT.w("completeAdd,PendingAddArguments=" + args);
         long screenId = args.screenId;
         if (args.container == LauncherSettings.Favorites.CONTAINER_DESKTOP) {
             // When the screen id represents an actual screen (as opposed to a rank) we make sure
@@ -1065,29 +1065,24 @@ public class Launcher extends Activity
         }
     }
 
-    @Override
-    protected void onResume() {
-        long startTime = 0;
-        if (DEBUG_RESUME_TIME) {
-            startTime = System.currentTimeMillis();
-            LogT.w("Launcher.onResume()");
-        }
+    /**
+     * 设置测试环境弹窗
+     */
+    private void setEnv() {
 
-        if (mLauncherCallbacks != null) {
-            mLauncherCallbacks.preOnResume();
-        }
-
-        super.onResume();
+        SharedPreferences.Editor editor = mSharedPrefs.edit();
+        editor.putBoolean(SET_ENV_DISMISSED, true);
+        editor.apply();
 
         SecureManager.getInstance().CheckDesKey();
-        if(LauncherConfig.ENV.CANSET){
+        if (LauncherConfig.ENV.CANSET) {
             if (dialog != null && dialog.isShowing()) {
                 return;
             }
             final AlertDialog.Builder ab = new AlertDialog.Builder(this);
-            LayoutInflater li= LayoutInflater.from(this);
-            View content = li.inflate(R.layout.setting,null);
-            final EditText etDomain = (EditText)content.findViewById(R.id.et_domain);
+            LayoutInflater li = LayoutInflater.from(this);
+            View content = li.inflate(R.layout.setting, null);
+            final EditText etDomain = (EditText) content.findViewById(R.id.et_domain);
             final EditText etDomains = (EditText) content.findViewById(R.id.et_domains);
             String urls = LauncherConfig.ENV.TESERVER;
             if (isTestUrl) {
@@ -1178,10 +1173,10 @@ public class Launcher extends Activity
 //                        ClientEngine.getInstance().init(Launcher.this.getApplicationContext(), LauncherConfig.ENV.TEV, "http://" + domain.trim() + ":" + port.trim() + LauncherConfig.SERVER_PATH, channel);
                     }
                     LauncherConfig.TestCsn = csn;
-                    if(isFromOtherFlatform){
+                    if (isFromOtherFlatform) {
                         // TODO: 多进程通讯IPC入口
 //                        gotopay();
-                    }else{
+                    } else {
                         gotoLogin(ab.create());
                     }
                 }
@@ -1189,13 +1184,32 @@ public class Launcher extends Activity
             ab.setCancelable(false);
             dialog = ab.create();
             dialog.show();
-        }else{
-            if(isFromOtherFlatform){
+        } else {
+            if (isFromOtherFlatform) {
                 // TODO: 多进程通讯IPC入口
 //                gotopay();
-            }else{
+            } else {
                 gotoLogin();
             }
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        long startTime = 0;
+        if (DEBUG_RESUME_TIME) {
+            startTime = System.currentTimeMillis();
+            LogT.w("Launcher.onResume()");
+        }
+
+        if (mLauncherCallbacks != null) {
+            mLauncherCallbacks.preOnResume();
+        }
+
+        super.onResume();
+        if (!mSharedPrefs.getBoolean(SET_ENV_DISMISSED, false)){
+            LogT.w("一次显示="+mSharedPrefs.getBoolean(SET_ENV_DISMISSED, false));
+            setEnv();
         }
 
         // Restore the previous launcher state
@@ -1291,6 +1305,7 @@ public class Launcher extends Activity
             mLauncherCallbacks.onResume();
         }
     }
+
     //这里模拟跳转到其他activity,临时注掉
     private void gotoLogin(final AlertDialog ab) {
         new Thread(new Runnable() {
@@ -1298,7 +1313,7 @@ public class Launcher extends Activity
             public void run() {
                 try {
                     Thread.sleep(1000);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 runOnUiThread(new Runnable() {
@@ -1312,13 +1327,14 @@ public class Launcher extends Activity
             }
         }).start();
     }
+
     private void gotoLogin() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Thread.sleep(1000);
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 runOnUiThread(new Runnable() {
@@ -1400,6 +1416,7 @@ public class Launcher extends Activity
 
     public interface LauncherSearchCallbacks {
         public void onSearchOverlayOpened();
+
         public void onSearchOverlayClosed();
     }
 
@@ -1714,9 +1731,9 @@ public class Launcher extends Activity
      */
     public View createShortcut(ViewGroup parent, ShortcutInfo info) {
 
-        if(DEBUG) {
+        if (DEBUG) {
             i++;
-            LogT.w("创建快捷方式:"+i);
+            LogT.w("创建快捷方式:" + i);
         }
         BubbleTextView favorite = (BubbleTextView) mInflater.inflate(R.layout.app_icon,
                 parent, false);
@@ -1734,7 +1751,7 @@ public class Launcher extends Activity
      */
     private void completeAddShortcut(Intent data, long container, long screenId, int cellX,
                                      int cellY) {
-      if(DEBUG)  LogT.w("添加应用快捷方式");
+        if (DEBUG) LogT.w("添加应用快捷方式");
         int[] cellXY = mTmpAddItemCellCoordinates;
         int[] touchXY = mPendingAddInfo.dropPos;
         CellLayout layout = getCellLayout(container, screenId);
@@ -2221,7 +2238,9 @@ public class Launcher extends Activity
 
     @Override
     public void onDestroy() {
+        LogT.w("onDestroy()");
         super.onDestroy();
+        mSharedPrefs.edit().putBoolean(SET_ENV_DISMISSED, false).apply();
 
         // Remove all pending runnables
         mHandler.removeMessages(ADVANCE_MSG);
@@ -2262,6 +2281,7 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onDestroy();
         }
+        LauncherApplication.getInstance().AppExit();
     }
 
     public DragController getDragController() {
@@ -3007,7 +3027,6 @@ public class Launcher extends Activity
 //            startActivity(new Intent(this, SettingsActivity.class));
 //        }
 //    }
-
     public View.OnTouchListener getHapticFeedbackTouchListener() {
         if (mHapticFeedbackTouchListener == null) {
             mHapticFeedbackTouchListener = new View.OnTouchListener() {
@@ -3042,7 +3061,6 @@ public class Launcher extends Activity
      * This implies that the user is now on the homescreen and is not doing housekeeping.
      */
     protected void onInteractionEnd() {
-        if(DEBUG) LogT.w("互动结束，onInteractionEnd");
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onInteractionEnd();
         }
@@ -3058,7 +3076,7 @@ public class Launcher extends Activity
      * when the user is on the homescreen and not doing housekeeping.
      */
     protected void onInteractionBegin() {
-       if(DEBUG) LogT.w("互动开始，onInteractionBegin");
+        if (DEBUG) LogT.w("互动开始，onInteractionBegin");
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onInteractionBegin();
         }
@@ -3553,10 +3571,10 @@ public class Launcher extends Activity
 
     /**
      * Shows the apps view.
-     *  showAppsView(true , false ,true , false );
-     *  resetListToTop=true 显示搜索栏，并固定到顶部
-     *  updatePredictedApps=true 更新、显示预装的app
-     *  focusSearcheBar=true 搜索栏获取焦点，显示系统键盘
+     * showAppsView(true , false ,true , false );
+     * resetListToTop=true 显示搜索栏，并固定到顶部
+     * updatePredictedApps=true 更新、显示预装的app
+     * focusSearcheBar=true 搜索栏获取焦点，显示系统键盘
      */
     void showAppsView(boolean animated, boolean resetListToTop, boolean updatePredictedApps,
                       boolean focusSearchBar) {
@@ -3638,7 +3656,7 @@ public class Launcher extends Activity
 
     public void enterSpringLoadedDragMode() {
         if (DEBUG)
-            LogT.w("enterSpringLoadedDragMode="+mState.name());
+            LogT.w("enterSpringLoadedDragMode=" + mState.name());
         if (mState == State.WORKSPACE || mState == State.APPS_SPRING_LOADED ||
                 mState == State.WIDGETS_SPRING_LOADED) {
             return;
@@ -3653,7 +3671,7 @@ public class Launcher extends Activity
 
     public void exitSpringLoadedDragModeDelayed(final boolean successfulDrop, int delay,
                                                 final Runnable onCompleteRunnable) {
-        if(DEBUG) LogT.w("exitSpringLoadedDragModeDelayed，mState="+mState);
+        if (DEBUG) LogT.w("exitSpringLoadedDragModeDelayed，mState=" + mState);
         if (mState != State.APPS_SPRING_LOADED && mState != State.WIDGETS_SPRING_LOADED) return;
 
         mHandler.postDelayed(new Runnable() {
@@ -3675,7 +3693,7 @@ public class Launcher extends Activity
     }
 
     void exitSpringLoadedDragMode() {
-        if(DEBUG) LogT.w("exitSpringLoadedDragMode，mState="+mState);
+        if (DEBUG) LogT.w("exitSpringLoadedDragMode，mState=" + mState);
         if (mState == State.APPS_SPRING_LOADED) {
             showAppsView(true /* animated */, false /* resetListToTop */,
                     false /* updatePredictedApps */, false /* focusSearchBar */);
@@ -3693,7 +3711,7 @@ public class Launcher extends Activity
         if (mLauncherCallbacks != null) {
             List<ComponentKey> apps = mLauncherCallbacks.getPredictedApps();
             if (apps != null) {
-               if(DEBUG) LogT.w("尝试更新预装的app=" + apps.toString());
+                if (DEBUG) LogT.w("尝试更新预装的app=" + apps.toString());
                 mAppsView.setPredictedApps(apps);
             }
         }
@@ -4753,8 +4771,10 @@ public class Launcher extends Activity
         editor.putBoolean(INTRO_SCREEN_DISMISSED, true);
         editor.apply();
     }
+
     /* 显示引导页面  */
-    @Thunk void showFirstRunClings() {
+    @Thunk
+    void showFirstRunClings() {
         // The two first run cling paths are mutually exclusive, if the launcher is preinstalled
         // on the device, then we always show the first run cling experience (or if there is no
         // launcher2). Otherwise, we prompt the user upon started for migration
@@ -4773,7 +4793,7 @@ public class Launcher extends Activity
         if (mWorkspace != null) mWorkspace.setAlpha(1f);
         if (mHotseat != null) mHotseat.setAlpha(1f);
         if (mPageIndicators != null) mPageIndicators.setAlpha(1f);
-        if (mSearchDropTargetBar != null){
+        if (mSearchDropTargetBar != null) {
             mSearchDropTargetBar.animateToState(
                     SearchDropTargetBar.State.SEARCH_BAR, 0);
         }
@@ -4803,7 +4823,7 @@ public class Launcher extends Activity
 
     // TODO: This method should be a part of LauncherSearchCallback
     public ItemInfo createAppDragInfo(Intent intent, UserHandleCompat user) {
-        if(DEBUG) LogT.w("createAppDragInfo,UserHandleCompat="+user.toString());
+        if (DEBUG) LogT.w("createAppDragInfo,UserHandleCompat=" + user.toString());
         if (user == null) {
             user = UserHandleCompat.myUserHandle();
         }

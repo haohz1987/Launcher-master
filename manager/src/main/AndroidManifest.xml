@@ -120,7 +120,7 @@
             android:finishOnCloseSystemDialogs="true"
             android:icon="@mipmap/ic_launcher_wallpaper"
             android:label="@string/pick_wallpaper"
-            android:process=":wallpaper_chooser"
+            android:process=":WallpaperPickerActivity"
             android:theme="@style/Theme.WallpaperPicker">
             <intent-filter>
                 <action android:name="android.intent.action.SET_WALLPAPER" />
@@ -133,7 +133,7 @@
             android:finishOnCloseSystemDialogs="true"
             android:icon="@mipmap/ic_launcher_wallpaper"
             android:label="@string/crop_wallpaper"
-            android:process=":wallpaper_chooser"
+            android:process=":WallpaperCropActivity"
             android:theme="@style/Theme.WallpaperCropper">
             <intent-filter>
                 <action android:name="android.service.wallpaper.CROP_AND_SET_WALLPAPER" />
@@ -144,14 +144,13 @@
         <!--autoRemoveFromRecents="true" 自动从概览屏幕中移除任务
             源码：
             android:autoRemoveFromRecents="true"
-            android:process=":settings_process"
+            android:process=":SettingsActivity"
         -->
         <activity
             android:name="com.handpay.settings.SettingsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
             android:autoRemoveFromRecents="true"
-            android:process=":settings_process"
             android:label="@string/settings_button_text"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

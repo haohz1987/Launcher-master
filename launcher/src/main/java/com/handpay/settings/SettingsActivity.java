@@ -3,21 +3,18 @@ package com.handpay.settings;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.StatFs;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.handpay.config.LauncherApplication;
 import com.handpay.launch.hp.R;
-import com.handpay.launch.util.LogT;
-import com.handpay.launch.util.RxToast;
 import com.handpay.utils.CommonUtils;
 import com.handpay.view.ActionBar;
 import com.handpay.view.MyGridView;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +70,6 @@ public class SettingsActivity extends BaseActivity implements FinalAdapter.OnAda
             homeTagList.add(homeTag[i]);
             tvColor.add(mTvColor[i]);
         }
-        LogT.w(tvColor.toString());
         mGridView.setAdapter(new FinalAdapter<Integer>(ImgRES, homeTagList, R.layout.item_gridview, this, tvColor));//
         mGridView.setNumColumns(3);
         mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -136,42 +132,10 @@ public class SettingsActivity extends BaseActivity implements FinalAdapter.OnAda
 
                         break;
                     case 12://退出
-
+                        LauncherApplication.getInstance().AppExit();
                         break;
                 }
             }
         });
-    }
-
-    private void showEnvironment(File path) {
-        LogT.w("AbsolutePath=" + path.getAbsolutePath() + " Path="
-                + path.getPath());
-        StatFs stat = new StatFs(path.getPath());
-        long blockSize = stat.getBlockSize();
-        long avaiableBlocks = stat.getAvailableBlocks();
-        long avaiableSize = avaiableBlocks * blockSize;
-        long blockCount = stat.getBlockCount();
-        long blockAllSize = blockCount * blockSize;
-        LogT.w("avaiableSize=" + (avaiableSize >> 20) + "M");
-        LogT.w("blockAllSize=" + (blockAllSize >> 20) + "M");
-        String cardInfo = getResources().getString(R.string.phone_the_total_memory) + ":" + convertFileSize(blockAllSize) + ", " +
-                getResources().getString(R.string.the_available_memory) + ":" + convertFileSize(avaiableSize);//1210M/1467M,1210M/1467M
-        RxToast.info(activity, cardInfo);
-    }
-
-    public static String convertFileSize(long size) {
-        long kb = 1024;
-        long mb = kb * 1024;
-        long gb = mb * 1024;
-        if (size >= gb) {
-            return String.format("%.2f GB", (float) size / gb);
-        } else if (size >= mb) {
-            float f = (float) size / mb;
-            return String.format(f > 100 ? "%.0f MB" : "%.2f MB", f);
-        } else if (size >= kb) {
-            float f = (float) size / kb;
-            return String.format(f > 100 ? "%.0f KB" : "%.2f KB", f);
-        } else
-            return String.format("%d B", size);
     }
 }

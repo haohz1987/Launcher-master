@@ -57,7 +57,7 @@ public class LauncherViewPropertyAnimator extends Animator implements AnimatorLi
     ArrayList<Animator.AnimatorListener> mListeners = new ArrayList<>();
     boolean mRunning = false;
     FirstFrameAnimatorHelper mFirstFrameHelper;
-    public static final boolean DEBUG = Launcher.DEBUG;//开启LogT
+    public static final boolean DEBUG = false;//开启LogT   Launcher.DEBUG
     
     public LauncherViewPropertyAnimator(View target) {
         mTarget = target;

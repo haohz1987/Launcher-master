@@ -1,18 +1,22 @@
 package com.handpay.config;
 
+import com.handpay.launch.Launcher;
 import com.handpay.launch.util.LogT;
 
 @SuppressWarnings("JniMissingFunction")
 public class NativeEngine {
     public static final String TAG = "NativeEngine";
+
     static {
         System.loadLibrary("launcher_native");
     }
+
     public native static String[] loadResources();
+
     public static NativeObject initNativeLib() {
         String[] tempResources = loadResources();
         NativeObject nativeObject = new NativeObject();
-        if(tempResources!=null){
+        if (tempResources != null) {
             nativeObject.setAppServer(tempResources[0]);
             nativeObject.setChannel(tempResources[1]);
             nativeObject.setVersion(tempResources[2]);
@@ -23,10 +27,11 @@ public class NativeEngine {
             nativeObject.setSelectDevice(tempResources[7]);
             nativeObject.setClientChannel(tempResources[8]);
         }
-        LogT.w("获取的jni参数："+nativeObject.toString());
+        if (Launcher.DEBUG) LogT.w("获取的jni参数：" + nativeObject.toString());
         return nativeObject;
     }
-    static class NativeObject{
+
+    static class NativeObject {
         private String AppServer;//生产环境地址
         private String Channel;//渠道号
         private String Version;//协议版本号
@@ -40,54 +45,71 @@ public class NativeEngine {
         public String getAppServer() {
             return AppServer;
         }
+
         public void setAppServer(String appServer) {
             AppServer = appServer;
         }
+
         public String getChannel() {
             return Channel;
         }
+
         public void setChannel(String channel) {
             Channel = channel;
         }
+
         public String getVersion() {
             return Version;
         }
+
         public void setVersion(String version) {
             Version = version;
         }
+
         public String getModulus() {
             return Modulus;
         }
+
         public void setModulus(String modulus) {
             Modulus = modulus;
         }
+
         public String getExponent() {
             return Exponent;
         }
+
         public void setExponent(String exponent) {
             Exponent = exponent;
         }
+
         public String getDomain() {
             return Domain;
         }
+
         public void setDomain(String domain) {
             Domain = domain;
         }
+
         public String getRootList() {
             return RootList;
         }
+
         public void setRootList(String rootList) {
             RootList = rootList;
         }
+
         public String getSelectDevice() {
             return SelectDevice;
         }
+
         public void setSelectDevice(String selectDevice) {
             SelectDevice = selectDevice;
         }
+
         public String getClientChannel() {
             return ClientChannel;
         }
+
         public void setClientChannel(String clientChannel) {
             ClientChannel = clientChannel;
         }

@@ -6,6 +6,8 @@ import android.support.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.View;
 
+import com.handpay.config.LauncherApplication;
+import com.handpay.launch.Launcher;
 import com.handpay.launch.hp.R;
 import com.handpay.utils.Heart;
 import com.handpay.view.AbTitleBar;
@@ -25,6 +27,7 @@ public class BaseActivity extends Activity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_main);
+        LauncherApplication.getInstance().addActivity(BaseActivity.this);
         Heart.initialize(this);
         myActionBar = (AbTitleBar) this.findViewById(R.id.top_actionbar);
         if (isShownTopBar()) {
@@ -62,5 +65,11 @@ public class BaseActivity extends Activity {
             params.height = actionBarHeight;
             myActionBar.setLayoutParams(params);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LauncherApplication.getInstance().finishActivity(BaseActivity.this);
     }
 }

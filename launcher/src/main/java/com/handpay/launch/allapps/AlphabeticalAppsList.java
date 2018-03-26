@@ -335,7 +335,7 @@ public class AlphabeticalAppsList {
      * Updates internals when the set of apps are updated.
      */
     private void onAppsUpdated() {
-       if(Launcher.DEBUG) LogT.w("onAppsUpdated");
+       if(Launcher.DEBUG) LogT.w("onAppsUpdated"+"_app预加载完成");
         // Sort the list of apps
         mApps.clear();
         mApps.addAll(mComponentToAppMap.values());
