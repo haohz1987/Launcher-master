@@ -74,5 +74,7 @@
     <color name="white">#ffffff</color>
     <color name="black">#000000</color>
     <color name="Iconcolor">#cccc00</color>
-
+    <color name="common_divider">#DDDDDD</color>
+    <color name="my_bg">#F1F4F6</color>
+    <color name="border_gray">#ffe8e8e8</color>
 </resources>

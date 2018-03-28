@@ -1069,11 +1069,7 @@ public class Launcher extends Activity
      * 设置测试环境弹窗
      */
     private void setEnv() {
-
-        SharedPreferences.Editor editor = mSharedPrefs.edit();
-        editor.putBoolean(SET_ENV_DISMISSED, true);
-        editor.apply();
-
+        mSharedPrefs.edit().putBoolean(SET_ENV_DISMISSED, true).apply();
         SecureManager.getInstance().CheckDesKey();
         if (LauncherConfig.ENV.CANSET) {
             if (dialog != null && dialog.isShowing()) {

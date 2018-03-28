@@ -40,7 +40,7 @@
         android:name="android.permission.BIND_APPWIDGET"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="com.android.launcher.permission.READ_SETTINGS" />
@@ -56,9 +56,10 @@
         android:name="com.handpay.config.LauncherApplication"
         android:allowBackup="@bool/enable_backup"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher_home"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="@bool/config_largeHeap"
+        android:persistent="true"
         android:restoreAnyVersion="true"
         android:supportsRtl="true">
         <activity
@@ -71,7 +72,8 @@
             android:stateNotNeeded="true"
             android:taskAffinity=""
             android:theme="@style/Theme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            tools:targetApi="lollipop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -82,30 +84,10 @@
             </intent-filter>
         </activity>
 
-        <!-- ENABLE_FOR_TESTING
-
-        <activity
-            android:name="com.handpay.launch.testing.LauncherExtension"
-            android:launchMode="singleTask"
-            android:clearTaskOnLaunch="true"
-            android:stateNotNeeded="true"
-            android:theme="@style/Theme"
-            android:windowSoftInputMode="adjustPan"
-            android:screenOrientation="nosensor"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.MONKEY"/>
-            </intent-filter>
-        </activity>
-        -->
-
         <activity
             android:name="com.handpay.launch.ToggleWeightWatcher"
             android:enabled="@bool/debug_memory_enabled"
-            android:icon="@mipmap/ic_launcher_home"
+            android:icon="@mipmap/ic_launcher"
             android:label="@string/toggle_weight_watcher">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -148,9 +130,9 @@
         -->
         <activity
             android:name="com.handpay.settings.SettingsActivity"
+            android:autoRemoveFromRecents="true"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:exported="false"
-            android:autoRemoveFromRecents="true"
             android:label="@string/settings_button_text"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -168,7 +150,7 @@
             android:name="com.handpay.launch.MemoryDumpActivity"
             android:enabled="@bool/debug_memory_enabled"
             android:excludeFromRecents="true"
-            android:icon="@mipmap/ic_launcher_home"
+            android:icon="@mipmap/ic_launcher"
             android:label="@string/debug_memory_activity"
             android:theme="@android:style/Theme.NoDisplay">
             <intent-filter>
@@ -178,19 +160,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.handpay.settings.DeviceInfoActivity"
+        <activity
+            android:name="com.handpay.settings.DeviceInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoTitle" />
-        <activity android:name="com.handpay.settings.NetSpeedActivity"
+        <activity
+            android:name="com.handpay.settings.NetSpeedActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoTitle" />
-        <activity android:name="com.handpay.settings.LoadProgressActivity"
+        <activity
+            android:name="com.handpay.settings.LoadProgressActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoTitle" />
 
         <service
             android:name="com.handpay.launch.MemoryTracker"
-            android:enabled="@bool/debug_memory_enabled"/>
+            android:enabled="@bool/debug_memory_enabled" />
 
         <receiver android:name="com.handpay.launch.WallpaperChangedReceiver">
             <intent-filter>
