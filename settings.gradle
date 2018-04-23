@@ -1,1 +1,1 @@
-include ':launcher', ':wallpaperpick', ':manager'
+include ':launcher', ':wallpaperpick', ':manager', ':okgo', ':okserver'

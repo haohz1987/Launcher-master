@@ -1,13 +1,14 @@
 package com.handpay.settings;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.TypedValue;
 import android.view.View;
 
 import com.handpay.config.LauncherApplication;
-import com.handpay.launch.Launcher;
 import com.handpay.launch.hp.R;
 import com.handpay.utils.Heart;
 import com.handpay.view.AbTitleBar;
@@ -65,6 +66,14 @@ public class BaseActivity extends Activity {
             params.height = actionBarHeight;
             myActionBar.setLayoutParams(params);
         }
+    }
+    public void startActivityPending(Context cxt,Class clazz){
+        startActivity(new Intent(cxt,clazz));
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
+    }
+    public void startActivityPending(Context cxt,String action){
+        cxt.startActivity(new Intent(action));
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
     }
 
     @Override

@@ -168,8 +168,9 @@
             android:name="com.handpay.settings.NetSpeedActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoTitle" />
+
         <activity
-            android:name="com.handpay.settings.LoadProgressActivity"
+            android:name="com.handpay.settings.down.LoadingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.NoTitle" />
 

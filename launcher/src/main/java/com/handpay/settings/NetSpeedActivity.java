@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
+import com.handpay.utils.DebouncingOnClickListener;
 import com.handpay.view.ActionBar;
 
 import java.io.InputStream;
@@ -22,6 +23,9 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.text.DecimalFormat;
 
+/**
+ * 测试网速，取全局网速，同时会下载url_string文件
+ */
 public class NetSpeedActivity extends BaseActivity {
 
     private TextView tv_type, tv_now_speed, tv_ave_speed;
@@ -75,10 +79,10 @@ public class NetSpeedActivity extends BaseActivity {
         needle = (ImageView) findViewById(R.id.needle);
         btn = (Button) findViewById(R.id.start_btn);
 
-        btn.setOnClickListener(new View.OnClickListener() {
+        btn.setOnClickListener(new DebouncingOnClickListener() {
             @SuppressLint("MissingPermission")
             @Override
-            public void onClick(View arg0) {
+            public void doClick(View arg0) {
                 flag = true;
                 tv_type.setText(connectivityManager.getActiveNetworkInfo().getTypeName());
                 btn.setText("测试中");

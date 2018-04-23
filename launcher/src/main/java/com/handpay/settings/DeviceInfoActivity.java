@@ -15,7 +15,6 @@ import android.widget.TextView;
 import com.handpay.launch.hp.R;
 import com.handpay.launch.util.LogT;
 import com.handpay.utils.CommonUtils;
-import com.handpay.utils.taskscheduler.Task;
 import com.handpay.view.ActionBar;
 
 import java.io.BufferedReader;
@@ -25,19 +24,31 @@ import java.io.InputStreamReader;
 
 /**
  * Created by haohz on 2018/3/14.
+ * 未使用开启线程的方式，页面会有卡顿
  */
 
 public class DeviceInfoActivity extends BaseActivity {
-    private ScrollView mScrollView;
     private static final int timeInterval = 100;
-    private TextView mCpu, mCpuPercent, mVersion, mResolution, mBrightness, mRamTotal, mUsedRam, mAvailableRam, mAvailableRamPercent, mSd, mAvailableSd, mManufacturer;
-    private Task cpuTask;
-    private boolean running = true;
+    private TextView mCpuPercent;
+    private TextView mBrightness;
+    private TextView mRamTotal;
+    private TextView mUsedRam;
+    private TextView mAvailableRam;
+    private TextView mAvailableRamPercent;
+    private TextView mSd;
+    private TextView mAvailableSd;
+    //    private TextView mManufacturer;
+//    private Task cpuTask;
+//    private boolean running = true;
     private String cpuPercent;
-    private String cpuBoard;
-    private TextView mModel;
+    //    private String cpuBoard;
     private int brightness;
-    private String line, free, cached, memTotal, ramSize, ramFreeSize, ramUsedSize;
+    private String free;
+    private String cached;
+    private String memTotal;
+    //    private String ramSize;
+//    private String ramFreeSize;
+//    private String ramUsedSize;
     private double total;
     private double memFree;
     private double memUsed;
@@ -46,7 +57,7 @@ public class DeviceInfoActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setContentView(R.layout.activity_device_info);
         super.onCreate(savedInstanceState);
-        mScrollView = findViewById(R.id.scroll_view);
+        ScrollView mScrollView = findViewById(R.id.scroll_view);
 
         LinearLayout ll = (LinearLayout) LayoutInflater.from(this).inflate(
                 R.layout.view_device_info, null);
@@ -69,7 +80,6 @@ public class DeviceInfoActivity extends BaseActivity {
             getRAMInfo();
             setView();
             mHandler.postDelayed(cpuRunnable, timeInterval);
-
         }
     };
 
@@ -110,12 +120,12 @@ public class DeviceInfoActivity extends BaseActivity {
     }
 
     private void initView() {
-        mCpu = findViewById(R.id.tv_cpu);
+        TextView mCpu = findViewById(R.id.tv_cpu);
         mCpuPercent = findViewById(R.id.tv_cpu_percent);
 //        mManufacturer = findViewById(R.id.tv_manufacturer);
-        mModel = findViewById(R.id.tv_model);
-        mVersion = findViewById(R.id.tv_version);
-        mResolution = findViewById(R.id.tv_resolution);
+        TextView mModel = findViewById(R.id.tv_model);
+        TextView mVersion = findViewById(R.id.tv_version);
+        TextView mResolution = findViewById(R.id.tv_resolution);
         mBrightness = findViewById(R.id.tv_brightness);
         mRamTotal = findViewById(R.id.tv_ram_total);
         mUsedRam = findViewById(R.id.tv_used_ram);
@@ -135,6 +145,7 @@ public class DeviceInfoActivity extends BaseActivity {
         try {
             Process p = Runtime.getRuntime().exec("cat /proc/meminfo");
             BufferedReader br = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
             while ((line = br.readLine()) != null) {
                 if (line.trim().length() < 1) {
                     continue;
@@ -151,9 +162,7 @@ public class DeviceInfoActivity extends BaseActivity {
             memFree = memFree / 1024;
             total = Double.parseDouble(memTotal) / 1024;
             memUsed = total - memFree;
-            ramUsedSize = CommonUtils.parseDouble(memUsed);
-
-
+//            ramUsedSize = CommonUtils.parseDouble(memUsed);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -167,7 +176,7 @@ public class DeviceInfoActivity extends BaseActivity {
             long nTotalBlocks = statfs.getBlockCount();
             long nBlocSize = statfs.getBlockSize();
             long nAvailaBlock = statfs.getAvailableBlocks();
-            long nFreeBlock = statfs.getFreeBlocks();
+//            long nFreeBlock = statfs.getFreeBlocks();
             long nSDTotalSize = nTotalBlocks * nBlocSize / 1024 / 1024;
             long nSDFreeSize = nAvailaBlock * nBlocSize / 1024 / 1024;
             if (nSDFreeSize > 1024)

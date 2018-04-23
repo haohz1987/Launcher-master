@@ -69,7 +69,6 @@ public class CommonUtils {
      * 打开设置网络界面 移动网络
      */
     public static void setNetworkMethod(final Context context) {
-
         // 进入之前先打开网络 e
 //		setMobileDataStatus(context,true);
         try {
@@ -82,7 +81,6 @@ public class CommonUtils {
         } catch (Exception e) {
 
         }
-
         // 跳转到移动网络设置界面,选第二个选项报错,选第一个正常,用下面的取代掉
 //		context.startActivity(new Intent(android.provider.Settings.ACTION_DATA_ROAMING_SETTINGS));
         Intent intent = new Intent();

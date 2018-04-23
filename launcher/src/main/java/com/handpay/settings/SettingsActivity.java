@@ -1,7 +1,9 @@
 package com.handpay.settings;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.newland.telephony.TelephonyManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -11,7 +13,8 @@ import android.widget.TextView;
 
 import com.handpay.config.LauncherApplication;
 import com.handpay.launch.hp.R;
-import com.handpay.utils.CommonUtils;
+import com.handpay.settings.down.LoadingActivity;
+import com.handpay.utils.DebouncingOnItemClickListener;
 import com.handpay.view.ActionBar;
 import com.handpay.view.MyGridView;
 
@@ -61,7 +64,7 @@ public class SettingsActivity extends BaseActivity implements FinalAdapter.OnAda
     }
 
     private void initGridView() {
-        mGridView = (MyGridView) findViewById(R.id.my_gridview);
+        mGridView = findViewById(R.id.my_gridview);
         ImgRES.clear();
         homeTagList.clear();
         tvColor.clear();
@@ -70,63 +73,53 @@ public class SettingsActivity extends BaseActivity implements FinalAdapter.OnAda
             homeTagList.add(homeTag[i]);
             tvColor.add(mTvColor[i]);
         }
-        mGridView.setAdapter(new FinalAdapter<Integer>(ImgRES, homeTagList, R.layout.item_gridview, this, tvColor));//
+        mGridView.setAdapter(new FinalAdapter<>(ImgRES, homeTagList, R.layout.item_gridview, this, tvColor));//
         mGridView.setNumColumns(3);
-        mGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mGridView.setOnItemClickListener(new DebouncingOnItemClickListener() {//防抖，0.5s延时点击
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void doItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0://wifi
-                        CommonUtils.setWifi(activity);
-                        // 追加一个界面切换动画
-                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
+                        startActivityPending(activity, android.provider.Settings.ACTION_WIFI_SETTINGS);
                         break;
                     case 1://显示
-                        CommonUtils.setDisplay(activity);
-                        // 追加一个界面切换动画
-                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
+                        startActivityPending(activity, android.provider.Settings.ACTION_DISPLAY_SETTINGS);
                         break;
                     case 2://蓝牙
-                        CommonUtils.setBlueTooth(activity);
-                        // 追加一个界面切换动画
-                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
+                        startActivityPending(activity, android.provider.Settings.ACTION_BLUETOOTH_SETTINGS);
                         break;
                     case 3://移动网络
-                        CommonUtils.setNetworkMethod(activity);
-                        // 追加一个界面切换动画
-                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
+                        try {
+                            TelephonyManager teleManager = new TelephonyManager(activity);
+                            if (!teleManager.getMobileDataEnabled()) {
+                                teleManager.setMobileDataEnabled(true);
+                            }
+                        } catch (Exception ignored) {}
+                        activity.startActivity(new Intent().setComponent(
+                                new ComponentName("com.android.phone", "com.android.phone.MobileNetworkSettings")));
+                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
                         break;
                     case 4://vpn
-                        CommonUtils.setVPN(activity);
-                        // 追加一个界面切换动画
+                        activity.startActivity(new Intent().setAction("android.net.vpn.SETTINGS"));
                         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
-
                         break;
                     case 5://存储信息
-                        // TODO: 2018/3/15 加上遮盖后被遮盖的数据不能更新
-//                        startActivity(new Intent(
-//                                android.provider.Settings.ACTION_INTERNAL_STORAGE_SETTINGS));
-                        startActivity(new Intent(SettingsActivity.this, DeviceInfoActivity.class));
-
+                        startActivityPending(activity,DeviceInfoActivity.class);
                         break;
                     case 6://流量查看
 
                         break;
                     case 7://声音
-                        CommonUtils.setSound(activity);
-                        // 追加一个界面切换动画
-                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
-
+                        startActivityPending(activity, android.provider.Settings.ACTION_SOUND_SETTINGS);
                         break;
                     case 8://版本检测
 
                         break;
                     case 9://下载进度
-
+                        startActivityPending(activity,LoadingActivity.class);
                         break;
                     case 10://网速
-                        startActivity(new Intent(SettingsActivity.this,NetSpeedActivity.class));
-                        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);// 从左向右滑入的效果
+                        startActivityPending(activity,NetSpeedActivity.class);
                         break;
                     case 11://系统设置
 

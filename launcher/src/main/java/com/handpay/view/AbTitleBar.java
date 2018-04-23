@@ -33,6 +33,7 @@ import android.widget.PopupWindow;
 
 import com.handpay.launch.hp.R;
 import com.handpay.utils.AbViewUtil;
+import com.handpay.utils.DebouncingOnClickListener;
 
 
 /**
@@ -214,10 +215,9 @@ public class AbTitleBar extends LinearLayout {
         rightLayout.setVisibility(View.GONE);
         this.addView(rightLayout, rightViewLayoutParams);
 
-        logoView.setOnClickListener(new OnClickListener() {
-
+        logoView.setOnClickListener(new DebouncingOnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void doClick(View v) {
                 mActivity.finish();
             }
         });

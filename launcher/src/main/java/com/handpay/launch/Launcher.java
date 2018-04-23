@@ -1728,8 +1728,7 @@ public class Launcher extends Activity
     public View createShortcut(ViewGroup parent, ShortcutInfo info) {
 
         if (DEBUG) {
-            i++;
-            LogT.w("创建快捷方式:" + i);
+            LogT.w("创建快捷方式:" + i++);
         }
         BubbleTextView favorite = (BubbleTextView) mInflater.inflate(R.layout.app_icon,
                 parent, false);
@@ -3072,7 +3071,7 @@ public class Launcher extends Activity
      * when the user is on the homescreen and not doing housekeeping.
      */
     protected void onInteractionBegin() {
-        if (DEBUG) LogT.w("互动开始，onInteractionBegin");
+//        if (DEBUG) LogT.w("互动开始，onInteractionBegin");
         if (mLauncherCallbacks != null) {
             mLauncherCallbacks.onInteractionBegin();
         }

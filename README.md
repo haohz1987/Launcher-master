@@ -24,6 +24,59 @@ Launcher3
 
  ![img](https://github.com/haohz1987/Launcher-master/blob/master/img/jni_test.jpg)
 
+>jni使用语法
+
+如果本地代码是C++(.cpp或者.cc),要使用extern "c"{}把本地方法扩进去。
+extern "C"{
+    JNIEXPORT jstring JNICALL Java_scut_carson_1ho_ndk_1demo_MainActivity_getFromJNI(JNIEnv *env, jobject obj ){
+       // 参数说明
+       // 1. JNIEnv：代表了VM里面的环境，本地的代码可以通过该参数与Java代码进行操作
+       // 2. obj：定义JNI方法的类的一个本地引用（this）
+    return env -> NewStringUTF("Hello i am from JNI!");
+    // 上述代码是返回一个String类型的"Hello i am from JNI!"字符串
+    }
+}
+
+JNIEXPORT jstring JNICALL中的JNIEXPORT 和 JNICALL不能省
+关于方法名Java_scut_carson_1ho_ndk_1demo_MainActivity_getFromJNI
+格式 = Java _包名 _ 类名_Java需要调用的方法名(scut.carson_ho.ndk_demo)
+Java必须大写
+对于包名，包名里的.要改成_，_要改成_1
+最后，将创建好的test.cpp文件放入到工程文件目录中的src/main/jni文件夹
+若无jni文件夹，则手动创建。
+
+Android.mk
+
+LOCAL_PATH       :=  $(call my-dir)
+// 设置工作目录，而my-dir则会返回Android.mk文件所在的目录
+include              $(CLEAR_VARS)
+// 清除几乎所有以LOCAL——PATH开头的变量（不包括LOCAL_PATH）
+LOCAL_MODULE     :=  hello_jni
+// 设置模块的名称，即编译出来.so文件名
+// 注，要和上述步骤中build.gradle中NDK节点设置的名字相同
+LOCAL_SRC_FILES  :=  test.cpp
+// 指定参与模块编译的C/C++源文件名
+include              $(BUILD_SHARED_LIBRARY)
+// 指定生成的静态库或者共享库在运行时依赖的共享库模块列表。
+
+Application.mk(非必须)
+
+APP_ABI := armeabi
+// 最常用的APP_ABI字段：指定需要基于哪些CPU平台的.so文件
+// 常见的平台有armeabi x86 mips，其中移动设备主要是armeabi平台
+// 默认情况下，Android平台会生成所有平台的.so文件，即同APP_ABI := armeabi x86 mips
+// 指定CPU平台类型后，就只会生成该平台的.so文件，即上述语句只会生成armeabi平台的.so文件
+
+// 步骤1：进入该文件夹
+cd /Users/Carson_Ho/AndroidStudioProjects/NDK_Demo/app/src/main/jni
+// 步骤2：运行NDK编译命令
+ndk-build
+编译成功后，在src/main/会多了两个文件夹libs & obj，其中libs下存放的是.so库文件
+步骤7：在src/main/中创建一个名为jniLibs的文件夹，并将上述生成的so文件夹放到该目录下
+
+要把名为 CPU平台的文件夹放进去，而不是把.so文件放进去
+如果本来就有.so文件，那么就直接创建名为jniLibs的文件夹并放进去就可以
+
 >流程图
 
 1.结构模块
@@ -174,11 +227,3 @@ OverviewPanel壁纸选择部分代码
 
 [参考博客地址](http://blog.csdn.net/dingfengnupt88/article/details/51800057?locationNum=15)
 
-瀚银钱包生产版演示
-
-![img](https://github.com/haohz1987/Launcher-master/blob/master/img/hyqb01.gif)
-![img](https://github.com/haohz1987/Launcher-master/blob/master/img/hyqb2.gif)
-小贷产品演示：
-![img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E4%B8%AA%E4%BA%BA%E6%95%B0%E6%8D%AE.jpg)
-![img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81.jpg)
-![img](https://github.com/haohz1987/Launcher-master/blob/master/img/%E9%A6%96%E9%A1%B5.jpg)
