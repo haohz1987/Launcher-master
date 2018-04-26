@@ -11,8 +11,8 @@ Java_com_handpay_config_NativeEngine_loadResources(JNIEnv *env, jobject thiz) {
     char *sa[] = {"https://safesft.handpay.cn/hpayMicroView",           //  0生产环境
                   "HPZZT",                      //  1渠道
                   "3.5",                        //  2协议版本号
-                  "9411bb0a7ad5cf33dbd9ba51a5feedabca6e9874042bac5b2273173c6f2e914e97df6b2c19f91abe2ef767c8ca3204caa29831e9c7c2dc0a0f35c31c9cce37fe8d3fb2ac9c4296e14104b27cef1a47db218bb213b880617f8e449d0f0310dc89627e695114fb197184afa415903be9e92a3b39b553ae078dc42946c81ab06105",     //  3DES加解密_publicKey
-                  "10001",     //  4DES加解密_publicExp
+                  "publicKey",     //  3DES加解密_publicKey
+                  "publicExp",     //  4DES加解密_publicExp
                   "safesft.handpay.cn",                      //  5域名（同生产环境）
                   "HP_LAUNCHER",                 //  6当前应用自定义保存文件的根文件夹
                   "0",                          //  7是否需要选择设备
